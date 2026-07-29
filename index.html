@@ -3,69 +3,153 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ILDA PLAY</title>
+<meta name="theme-color" content="#07091a">
+<title>ILDA PLAY — Central Oficial de Áudio</title>
 <style>
-:root{--bg:#050816;--panel:#10162d;--text:#f7f9ff;--muted:#aebbd4;--blue:#45b7ff;--pink:#ff4fa7}
+:root{
+ --bg:#050715;--panel:#0e1430;--panel2:#111a3d;--text:#f7f9ff;
+ --muted:#aeb9d4;--blue:#25baff;--pink:#ff45a0;--violet:#9b5cff;--line:rgba(255,255,255,.10)
+}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:
-radial-gradient(circle at 85% 5%,rgba(255,79,167,.22),transparent 32%),
-radial-gradient(circle at 10% 90%,rgba(69,183,255,.18),transparent 35%),
-linear-gradient(160deg,#040713,#0b1025 62%,#12081f);min-height:100vh}
-header{position:sticky;top:0;background:rgba(5,8,22,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
-.nav{max-width:1180px;margin:auto;padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
-.brand{display:flex;align-items:center;gap:12px;font-weight:900}
-.logo{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--pink));font-size:26px}
-main{max-width:1180px;margin:auto;padding:48px 22px 70px}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+ radial-gradient(circle at 85% -10%,rgba(255,69,160,.23),transparent 35%),
+ radial-gradient(circle at 5% 85%,rgba(37,186,255,.18),transparent 38%),
+ linear-gradient(155deg,#040611,#080c20 55%,#10071b);min-height:100vh}
+button,a{font:inherit}
+.top{position:sticky;top:0;z-index:30;background:rgba(4,6,17,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{max-width:1220px;margin:auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.3px}
+.brand-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--pink));box-shadow:0 0 28px rgba(255,69,160,.3)}
+.brand-icon svg{width:22px;fill:white}
+.menu{display:flex;gap:18px;flex-wrap:wrap}
+.menu a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:700}
+.menu a:hover{color:white}
+main{max-width:1220px;margin:auto;padding:38px 22px 76px}
+.hero{display:grid;grid-template-columns:1.03fr .97fr;gap:34px;align-items:center}
 .eyebrow{color:var(--blue);font-size:13px;font-weight:900;letter-spacing:2px}
-h1{font-size:clamp(56px,9vw,104px);line-height:.92;letter-spacing:-5px;margin:10px 0 18px}
-.lead{font-size:clamp(18px,2.5vw,23px);color:var(--muted);line-height:1.5}
-.visual{min-height:330px;border-radius:34px;background:url('capa_liga_cria.png') center/cover no-repeat;border:1px solid rgba(255,255,255,.12);box-shadow:0 30px 90px rgba(0,0,0,.38)}
+h1{font-size:clamp(58px,9vw,108px);line-height:.88;letter-spacing:-6px;margin:10px 0 18px}
+.lead{font-size:clamp(18px,2.3vw,23px);line-height:1.55;color:var(--muted);max-width:690px}
+.tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.tag{padding:9px 12px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid var(--line);font-size:13px;color:#e5ebf9}
+.hero-art{min-height:370px;border-radius:34px;background:url('capa_liga_cria.png') center/cover no-repeat;border:1px solid rgba(255,255,255,.13);box-shadow:0 35px 95px rgba(0,0,0,.45);position:relative;overflow:hidden}
+.hero-art:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(5,7,21,.45))}
 .section-title{font-size:30px;margin:52px 0 18px}
+.now{display:grid;grid-template-columns:340px 1fr;gap:24px;background:linear-gradient(145deg,rgba(18,27,62,.96),rgba(7,11,28,.97));border:1px solid var(--line);border-radius:30px;padding:20px;box-shadow:0 22px 60px rgba(0,0,0,.26)}
+.cover{aspect-ratio:1/1;border-radius:23px;background:url('capa_liga_cria.png') center/cover no-repeat;border:1px solid var(--line)}
+.now-info{display:flex;flex-direction:column;justify-content:center;min-width:0}
+.kicker{font-size:12px;color:var(--pink);font-weight:900;letter-spacing:1.6px}
+.song{font-size:clamp(34px,5vw,60px);margin:8px 0 4px;letter-spacing:-2px}
+.meta{color:var(--muted);line-height:1.5}
+.progress-wrap{margin-top:24px}
+.progress{width:100%;accent-color:var(--pink);cursor:pointer}
+.times{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:5px}
+.controls{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
+.round{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:rgba(255,255,255,.06);color:white;cursor:pointer}
+.round:hover{background:rgba(255,255,255,.11)}
+.play{width:62px;height:62px;border:none;background:linear-gradient(135deg,var(--blue),var(--pink));box-shadow:0 0 30px rgba(255,69,160,.28)}
+.round svg{width:22px;height:22px;fill:currentColor}
+.volume{display:flex;align-items:center;gap:9px;margin-left:auto;color:var(--muted)}
+.volume input{width:120px;accent-color:var(--blue)}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:linear-gradient(160deg,rgba(17,24,50,.96),rgba(8,13,31,.96));border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:18px}
-.featured{grid-column:span 2}
-.cover{aspect-ratio:16/9;border-radius:19px;background:url('capa_liga_cria.png') center/cover no-repeat;margin-bottom:18px}
-.kicker{color:var(--pink);font-size:12px;font-weight:900;letter-spacing:1.5px}
-.meta{color:var(--muted)}
-audio{width:100%;margin-top:12px}
-.placeholder{min-height:220px;display:flex;flex-direction:column;justify-content:center}
-.icon{font-size:44px}
-.placeholder strong{font-size:22px;margin-top:12px}
-.placeholder span{color:var(--muted);margin-top:8px;line-height:1.5}
-footer{margin-top:60px;border-top:1px solid rgba(255,255,255,.08);padding-top:24px;color:var(--muted);font-size:13px}
-@media(max-width:850px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.featured{grid-column:span 1}h1{letter-spacing:-3px}}
+.card{background:linear-gradient(150deg,rgba(17,26,61,.94),rgba(7,11,28,.95));border:1px solid var(--line);border-radius:25px;padding:21px;min-height:220px;display:flex;flex-direction:column}
+.card .icon{font-size:42px;margin-bottom:18px}
+.card h3{font-size:22px;margin:0 0 9px}
+.card p{color:var(--muted);line-height:1.55;margin:0 0 18px}
+.card button,.card a{margin-top:auto;width:max-content;padding:11px 15px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.065);color:#fff;text-decoration:none;font-weight:800}
+.card button[disabled]{opacity:.55;cursor:not-allowed}
+.notice{margin-top:18px;padding:16px 18px;border-radius:18px;border:1px solid rgba(37,186,255,.2);background:rgba(37,186,255,.07);color:#dceeff;line-height:1.55}
+footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+@media(max-width:880px){
+ .menu{display:none}.hero{grid-template-columns:1fr}.hero-art{min-height:285px}
+ .now{grid-template-columns:1fr}.cover{max-width:420px;width:100%;margin:auto}
+ .grid{grid-template-columns:1fr}.volume{margin-left:0;width:100%}h1{letter-spacing:-4px}
+}
 </style>
 </head>
 <body>
-<header><div class="nav"><div class="brand"><div class="logo">▶</div><div>ILDA PLAY</div></div></div></header>
+<header class="top">
+ <div class="nav">
+  <div class="brand"><span class="brand-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span>ILDA PLAY</span></div>
+  <nav class="menu"><a href="#tocando">Tocando agora</a><a href="#conteudos">Conteúdos</a><a href="#sobre">Sobre</a></nav>
+ </div>
+</header>
+
 <main>
-<section class="hero">
-<div>
-<div class="eyebrow">CENTRAL OFICIAL DE ÁUDIO DA ESCOLA</div>
-<h1>ILDA<br>PLAY</h1>
-<p class="lead">Músicas, playlists, podcasts e produções criadas pelos estudantes da EEEFM “Ilda Ferreira da Fonseca Martins”.</p>
-</div>
-<div class="visual"></div>
-</section>
+ <section class="hero">
+  <div>
+   <div class="eyebrow">CENTRAL OFICIAL DE ÁUDIO DA ESCOLA</div>
+   <h1>ILDA<br>PLAY</h1>
+   <p class="lead">Músicas, playlists, podcasts e produções criadas pelos estudantes da EEEFM “Ilda Ferreira da Fonseca Martins”.</p>
+   <div class="tags"><span class="tag">Produção estudantil</span><span class="tag">Sem anúncios próprios</span><span class="tag">Acesso gratuito</span></div>
+  </div>
+  <div class="hero-art" aria-label="Arte oficial do ILDA PLAY"></div>
+ </section>
 
-<h2 class="section-title">Em destaque</h2>
-<section class="grid">
-<article class="card featured">
-<div class="cover"></div>
-<div class="kicker">MÚSICA TEMA OFICIAL</div>
-<h2>LIGA! CRIA!</h2>
-<p class="meta">Circuito da Matemática &amp; Dia D da Tecnologia</p>
-<audio controls preload="metadata"><source src="LIGA_CRIA.mp3" type="audio/mpeg">Seu navegador não oferece suporte ao áudio.</audio>
-</article>
+ <h2 class="section-title" id="tocando">Tocando agora</h2>
+ <section class="now">
+  <div class="cover"></div>
+  <div class="now-info">
+   <div class="kicker">MÚSICA TEMA OFICIAL</div>
+   <h2 class="song">LIGA! CRIA!</h2>
+   <div class="meta">Circuito da Matemática &amp; Dia D da Tecnologia</div>
+   <audio id="audio" preload="metadata"><source src="LIGA_CRIA.mp3" type="audio/mpeg"></audio>
+   <div class="progress-wrap">
+    <input id="progress" class="progress" type="range" min="0" max="100" value="0" aria-label="Progresso da música">
+    <div class="times"><span id="current">0:00</span><span id="duration">0:00</span></div>
+   </div>
+   <div class="controls">
+    <button class="round" id="restart" title="Recomeçar" aria-label="Recomeçar">
+     <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6a6 6 0 1 1-6-6V5a8 8 0 1 0 8 8c0-4.42-3.58-8-8-8z"/></svg>
+    </button>
+    <button class="round play" id="play" title="Reproduzir" aria-label="Reproduzir">
+     <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="round" id="mute" title="Silenciar" aria-label="Silenciar">
+     <svg id="volumeIcon" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12z"/></svg>
+    </button>
+    <div class="volume"><span>Volume</span><input id="volume" type="range" min="0" max="1" value="0.85" step="0.01"></div>
+   </div>
+  </div>
+ </section>
 
-<article class="card"><div class="placeholder"><div class="icon">🎧</div><strong>Playlist oficial</strong><span>Espaço reservado para a seleção musical preparada pelos estudantes.</span></div></article>
-<article class="card"><div class="placeholder"><div class="icon">🎙️</div><strong>POD SGP</strong><span>Entrevistas e programas produzidos pela equipe estudantil.</span></div></article>
-<article class="card"><div class="placeholder"><div class="icon">🎤</div><strong>Karaokê e versões</strong><span>Versões instrumentais, letras e novas criações poderão ser incluídas aqui.</span></div></article>
-<article class="card"><div class="placeholder"><div class="icon">📻</div><strong>Rádio Ilda</strong><span>Espaço reservado para futuras programações e transmissões da escola.</span></div></article>
-</section>
+ <h2 class="section-title" id="conteudos">Explore o ILDA PLAY</h2>
+ <section class="grid">
+  <article class="card"><div class="icon">🎧</div><h3>Playlist oficial</h3><p>A seleção musical será criada pelos estudantes e incorporada por meio do Spotify ou YouTube.</p><button disabled>Em preparação</button></article>
+  <article class="card"><div class="icon">🎙️</div><h3>POD SGP</h3><p>Entrevistas, episódios e programas produzidos pela equipe de mídia e comunicação estudantil.</p><button disabled>Conteúdo em breve</button></article>
+  <article class="card"><div class="icon">📻</div><h3>Rádio Ilda</h3><p>Espaço reservado para futuras programações, boletins escolares e transmissões especiais.</p><button disabled>Projeto futuro</button></article>
+  <article class="card"><div class="icon">🎤</div><h3>Karaokê e versões</h3><p>Versões instrumentais, letras e apresentações produzidas para os projetos da escola.</p><button disabled>Em preparação</button></article>
+  <article class="card"><div class="icon">▶️</div><h3>Vídeos oficiais</h3><p>Videoclipes, convites, coberturas e apresentações poderão ser incorporados do YouTube.</p><button disabled>Em breve</button></article>
+  <article class="card"><div class="icon">🐶</div><h3>Infinity Dog</h3><p>O mascote do projeto acompanha as produções de criatividade, inovação e tecnologia.</p><button disabled>Novidades em breve</button></article>
+ </section>
 
-<footer>ILDA PLAY · EEEFM “Ilda Ferreira da Fonseca Martins” · Produções educacionais e estudantis.</footer>
+ <div class="notice">As músicas comerciais serão incorporadas por players oficiais do Spotify ou do YouTube. Arquivos enviados diretamente ao ILDA PLAY serão apenas produções próprias ou conteúdos autorizados.</div>
+
+ <footer id="sobre">ILDA PLAY · EEEFM “Ilda Ferreira da Fonseca Martins” · Produções educacionais e estudantis.</footer>
 </main>
+
+<script>
+const audio=document.getElementById('audio');
+const play=document.getElementById('play');
+const playIcon=document.getElementById('playIcon');
+const progress=document.getElementById('progress');
+const current=document.getElementById('current');
+const duration=document.getElementById('duration');
+const volume=document.getElementById('volume');
+const mute=document.getElementById('mute');
+const restart=document.getElementById('restart');
+function fmt(s){if(!isFinite(s))return '0:00';const m=Math.floor(s/60),r=Math.floor(s%60);return m+':'+String(r).padStart(2,'0')}
+function icon(paused){playIcon.innerHTML=paused?'<path d="M8 5v14l11-7z"/>':'<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'}
+play.addEventListener('click',()=>audio.paused?audio.play():audio.pause());
+audio.addEventListener('play',()=>icon(false));
+audio.addEventListener('pause',()=>icon(true));
+audio.addEventListener('loadedmetadata',()=>duration.textContent=fmt(audio.duration));
+audio.addEventListener('timeupdate',()=>{current.textContent=fmt(audio.currentTime);progress.value=audio.duration?(audio.currentTime/audio.duration)*100:0});
+progress.addEventListener('input',()=>{if(audio.duration)audio.currentTime=(progress.value/100)*audio.duration});
+volume.addEventListener('input',()=>{audio.volume=volume.value;audio.muted=false});
+mute.addEventListener('click',()=>audio.muted=!audio.muted);
+restart.addEventListener('click',()=>{audio.currentTime=0;audio.play()});
+audio.volume=.85;
+</script>
 </body>
 </html>
