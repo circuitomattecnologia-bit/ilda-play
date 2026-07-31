@@ -10,7 +10,7 @@ Aceita:
 
 const CONTEUDOS = {
   spotify: "https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=8a9ff1a7d1b040f4",
-  podSgp: "",
+  podSgp: "https://youtu.be/t8DMQRPdI_w?si=GvIzR5ioKRcofL-0",
   videosOficiais: "",
   radioIlda: ""
 };
