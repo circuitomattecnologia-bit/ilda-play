@@ -57,7 +57,7 @@ h1{font-size:clamp(58px,9vw,108px);line-height:.88;letter-spacing:-6px;margin:10
 .card h3{font-size:22px;margin:0 0 9px}
 .card p{color:var(--muted);line-height:1.55;margin:0 0 18px}
 .card button,.card a{margin-top:auto;width:max-content;padding:11px 15px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.065);color:#fff;text-decoration:none;font-weight:800}
-.card iframe{display:block}.card button[disabled]{opacity:.55;cursor:not-allowed}
+.card button[disabled]{opacity:.55;cursor:not-allowed}
 .notice{margin-top:18px;padding:16px 18px;border-radius:18px;border:1px solid rgba(37,186,255,.2);background:rgba(37,186,255,.07);color:#dceeff;line-height:1.55}
 footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 @media(max-width:880px){
@@ -65,6 +65,11 @@ footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:v
  .now{grid-template-columns:1fr}.cover{max-width:420px;width:100%;margin:auto}
  .grid{grid-template-columns:1fr}.volume{margin-left:0;width:100%}h1{letter-spacing:-4px}
 }
+
+.content-player{width:100%;border:0;border-radius:12px;margin:12px 0;min-height:220px;background:#090d20}
+.content-placeholder{margin-top:auto;padding:14px;border-radius:12px;border:1px dashed var(--line);color:var(--muted);text-align:center;background:rgba(255,255,255,.035)}
+.content-link{display:inline-block}
+
 </style>
 </head>
 <body>
@@ -115,11 +120,11 @@ footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:v
 
  <h2 class="section-title" id="conteudos">Explore o ILDA PLAY</h2>
  <section class="grid">
-  <article class="card"><div class="icon">🎧</div><h3>Playlist oficial</h3><p>Ouça a seleção musical oficial do ILDA PLAY diretamente pelo Spotify.</p><iframe style="border-radius:12px;width:100%;height:352px;border:none;margin:12px 0 16px;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8AliSIsGeKd?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe><a href="https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=8a9ff1a7d1b040f4" target="_blank" rel="noopener noreferrer">🎵 Abrir no Spotify</a></article>
-  <article class="card"><div class="icon">🎙️</div><h3>POD SGP</h3><p>Entrevistas, episódios e programas produzidos pela equipe de mídia e comunicação estudantil.</p><button disabled>Conteúdo em breve</button></article>
-  <article class="card"><div class="icon">📻</div><h3>Rádio Ilda</h3><p>Espaço reservado para futuras programações, boletins escolares e transmissões especiais.</p><button disabled>Projeto futuro</button></article>
+  <article class="card" id="card-spotify"><div class="icon">🎧</div><h3>Playlist oficial</h3><p>Ouça a seleção musical oficial do ILDA PLAY diretamente pelo Spotify.</p><div id="spotify-content"></div></article>
+  <article class="card" id="card-pod"><div class="icon">🎙️</div><h3>POD SGP</h3><p>Entrevistas, episódios e programas produzidos pela equipe de mídia e comunicação estudantil.</p><div id="pod-content"></div></article>
+  <article class="card" id="card-radio"><div class="icon">📻</div><h3>Rádio Ilda</h3><p>Boletins escolares, comunicados, entrevistas e programas especiais.</p><div id="radio-content"></div></article>
   <article class="card"><div class="icon">🎤</div><h3>Karaokê e versões</h3><p>Versões instrumentais, letras e apresentações produzidas para os projetos da escola.</p><button disabled>Em preparação</button></article>
-  <article class="card"><div class="icon">▶️</div><h3>Vídeos oficiais</h3><p>Videoclipes, convites, coberturas e apresentações poderão ser incorporados do YouTube.</p><button disabled>Em breve</button></article>
+  <article class="card" id="card-videos"><div class="icon">▶️</div><h3>Vídeos oficiais</h3><p>Convites, bastidores, coberturas e apresentações oficiais da escola.</p><div id="videos-content"></div></article>
   <article class="card"><div class="icon">🐶</div><h3>Infinity Dog</h3><p>O mascote do projeto acompanha as produções de criatividade, inovação e tecnologia.</p><button disabled>Novidades em breve</button></article>
  </section>
 
@@ -128,6 +133,7 @@ footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:v
  <footer id="sobre">ILDA PLAY · EEEFM “Ilda Ferreira da Fonseca Martins” · Produções educacionais e estudantis.</footer>
 </main>
 
+<script src="conteudos.js"></script>
 <script>
 const audio=document.getElementById('audio');
 const play=document.getElementById('play');

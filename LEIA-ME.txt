@@ -1,0 +1,23 @@
+ILDA PLAY — ATUALIZAÇÃO FÁCIL
+
+ARQUIVOS DESTA VERSÃO
+1. index.html
+2. conteudos.js
+3. capa_liga_cria.png
+4. LIGA_CRIA.mp3
+
+COMO ATUALIZAR POD SGP, VÍDEOS OU RÁDIO
+1. No GitHub, abra o arquivo conteudos.js.
+2. Clique no lápis.
+3. Cole o link entre as aspas correspondentes:
+   podSgp: "COLE O LINK AQUI"
+   videosOficiais: "COLE O LINK AQUI"
+   radioIlda: "COLE O LINK AQUI"
+4. Clique em Confirmar alterações.
+5. Aguarde 1 a 3 minutos e atualize o ILDA PLAY com Ctrl + F5.
+
+LINKS ACEITOS
+- POD SGP: vídeo ou playlist do YouTube.
+- Vídeos oficiais: vídeo ou playlist do YouTube.
+- Rádio Ilda: vídeo/playlist do YouTube ou link direto de áudio MP3.
+- Spotify: playlist normal do Spotify.
