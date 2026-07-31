@@ -57,7 +57,7 @@ h1{font-size:clamp(58px,9vw,108px);line-height:.88;letter-spacing:-6px;margin:10
 .card h3{font-size:22px;margin:0 0 9px}
 .card p{color:var(--muted);line-height:1.55;margin:0 0 18px}
 .card button,.card a{margin-top:auto;width:max-content;padding:11px 15px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.065);color:#fff;text-decoration:none;font-weight:800}
-.card button[disabled]{opacity:.55;cursor:not-allowed}
+.card iframe{display:block}.card button[disabled]{opacity:.55;cursor:not-allowed}
 .notice{margin-top:18px;padding:16px 18px;border-radius:18px;border:1px solid rgba(37,186,255,.2);background:rgba(37,186,255,.07);color:#dceeff;line-height:1.55}
 footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
 @media(max-width:880px){
@@ -115,7 +115,7 @@ footer{margin-top:58px;padding-top:24px;border-top:1px solid var(--line);color:v
 
  <h2 class="section-title" id="conteudos">Explore o ILDA PLAY</h2>
  <section class="grid">
-  <article class="card"><div class="icon">🎧</div><h3>Playlist oficial</h3><p>A seleção musical será criada pelos estudantes e incorporada por meio do Spotify ou YouTube.</p><button disabled>Em preparação</button></article>
+  <article class="card"><div class="icon">🎧</div><h3>Playlist oficial</h3><p>Ouça a seleção musical oficial do ILDA PLAY diretamente pelo Spotify.</p><iframe style="border-radius:12px;width:100%;height:352px;border:none;margin:12px 0 16px;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX8AliSIsGeKd?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe><a href="https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=8a9ff1a7d1b040f4" target="_blank" rel="noopener noreferrer">🎵 Abrir no Spotify</a></article>
   <article class="card"><div class="icon">🎙️</div><h3>POD SGP</h3><p>Entrevistas, episódios e programas produzidos pela equipe de mídia e comunicação estudantil.</p><button disabled>Conteúdo em breve</button></article>
   <article class="card"><div class="icon">📻</div><h3>Rádio Ilda</h3><p>Espaço reservado para futuras programações, boletins escolares e transmissões especiais.</p><button disabled>Projeto futuro</button></article>
   <article class="card"><div class="icon">🎤</div><h3>Karaokê e versões</h3><p>Versões instrumentais, letras e apresentações produzidas para os projetos da escola.</p><button disabled>Em preparação</button></article>
