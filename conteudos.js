@@ -11,7 +11,7 @@ Aceita:
 const CONTEUDOS = {
   spotify: [
 
-"https://open.spotify.com/playlist/37i9dQZF1DX8Ai1SIsGeKd?si=8a9ff1a7d1b040f4",
+"https://open.spotify.com/playlist/6W10KwAmQELRdgYfjNXDd4?si=18cf59fe00ff4591",
 
 "https://open.spotify.com/playlist/2f871L8Ot0NNDovh06hvIm?si=451ad61345974e5b",
 
