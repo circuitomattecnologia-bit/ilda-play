@@ -11,7 +11,7 @@ Aceita:
 const CONTEUDOS = {
   spotify: "https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=8a9ff1a7d1b040f4",
   podSgp: "https://youtu.be/t8DMQRPdI_w?si=GvIzR5ioKRcofL-0",
-  videosOficiais: "",
+  videosOficiais: "https://drive.google.com/drive/folders/1GPHn9uvMpJM_9kOAsDRVAZtR8o1IG9Zj?usp=sharing",
   radioIlda: ""
 };
 
