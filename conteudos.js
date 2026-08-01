@@ -9,7 +9,19 @@ Aceita:
 */
 
 const CONTEUDOS = {
-  spotify: "https://open.spotify.com/playlist/37i9dQZF1DX8AliSIsGeKd?si=8a9ff1a7d1b040f4",
+  spotify: [
+
+"https://open.spotify.com/playlist/37i9dQZF1DX8Ai1SIsGeKd?si=8a9ff1a7d1b040f4",
+
+"https://open.spotify.com/playlist/2f871L8Ot0NNDovh06hvIm?si=451ad61345974e5b",
+
+"https://open.spotify.com/playlist/1gIprG0BRzh4nTKYB8gzYH?si=44f2526772d74621",
+
+"https://open.spotify.com/playlist/7waZ22vuQBOoqYIBGiFGwz?si=b737fa0d5d90478b",
+
+"https://open.spotify.com/playlist/5zzt1ZYXG1UtAtNYP5E41I?si=2c6977aaf8f544b9"
+
+],
   podSgp: "https://youtu.be/t8DMQRPdI_w?si=GvIzR5ioKRcofL-0",
   videosOficiais: "https://drive.google.com/drive/folders/1GPHn9uvMpJM_9kOAsDRVAZtR8o1IG9Zj?usp=sharing",
   radioIlda: ""
@@ -49,16 +61,36 @@ function placeholder(text) {
 
 function renderSpotify() {
   const host = document.getElementById("spotify-content");
-  const embed = spotifyEmbed(CONTEUDOS.spotify);
-  if (!embed) {
-    host.innerHTML = placeholder("Playlist em preparação.");
+
+  const playlists = CONTEUDOS.spotify;
+
+  if (!playlists || playlists.length === 0) {
+    host.innerHTML = placeholder("Nenhuma playlist disponível.");
     return;
   }
-  host.innerHTML = `
-    <iframe class="content-player" style="height:352px" src="${embed}"
-      loading="lazy"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
-    <a class="content-link" href="${CONTEUDOS.spotify}" target="_blank" rel="noopener noreferrer">🎵 Abrir no Spotify</a>`;
+
+  host.innerHTML = playlists.map(link => {
+    const embed = spotifyEmbed(link);
+
+    return `
+      <div style="margin-bottom:22px">
+        <iframe
+          class="content-player"
+          style="height:352px"
+          src="${embed}"
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
+
+        <a class="content-link"
+           href="${link}"
+           target="_blank"
+           rel="noopener noreferrer">
+           🎵 Abrir no Spotify
+        </a>
+      </div>
+    `;
+  }).join("");
 }
 
 function renderYoutube(targetId, url, emptyText, buttonText) {
