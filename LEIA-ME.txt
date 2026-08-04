@@ -1,15 +1,13 @@
-INFINITY WORLD — PACOTE CORRIGIDO
+INFINITY WORLD — INFINITY DOG COM LATIDO REAL
 
-ESTRUTURA:
-- index.html = Card Interativo de entrada
-- central.html = Central de Jogos Educativos Interativos
-- 15 arquivos .html = jogos
+Esta versão usa o áudio real enviado pelo usuário.
 
-TESTE:
-1. Abra index.html.
-2. Clique em ACESSAR A CENTRAL DE JOGOS.
-3. Aguarde a animação curta.
-4. Teste dois ou três jogos.
+Interações:
+- Clique no Infinity Dog: latido curto real.
+- Iniciar aventura: latido duplo real.
+- Fazer carinho: latido feliz.
+- Dar petisco: outro trecho real.
+- Correr: latido real com reação de corrida.
 
-PUBLICAÇÃO:
-Envie TODOS os arquivos desta pasta juntos para o GitHub.
+O som sintético antigo foi substituído nas interações principais.
+Abra index.html para testar.
