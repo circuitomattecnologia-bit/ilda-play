@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Missão Respeito</title>
+<style>
+:root{--navy:#15213d;--purple:#5b2a86;--orange:#f28c28;--yellow:#ffd24a;--cream:#fff8e8;--green:#2bb673;--red:#df4d62}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#17213d,#4b246c 65%,#8c3a65);color:#fff;min-height:100vh}
+header{text-align:center;padding:22px 14px 10px}
+header h1{margin:0;font-size:clamp(30px,5vw,54px);color:var(--yellow);text-shadow:0 3px 0 #7d4b00}
+header p{margin:8px 0 0;font-size:clamp(16px,2vw,20px)}
+.shell{max-width:1180px;margin:auto;padding:14px;display:grid;grid-template-columns:.8fr 1.2fr;gap:16px}
+.panel{background:rgba(18,28,54,.94);border:2px solid #f2b24f;border-radius:24px;box-shadow:0 16px 38px #0008;overflow:hidden}
+.side{padding:18px}
+.badge{background:linear-gradient(135deg,#f28c28,#e5567e);padding:18px;border-radius:20px;text-align:center}
+.badge .icon{font-size:72px}
+.badge h2{margin:8px 0}
+.values{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.value{background:#ffffff12;border:1px solid #ffffff28;padding:12px;border-radius:14px;text-align:center;font-weight:bold}
+.guide{background:#fff;color:#26304a;border-radius:16px;padding:14px;font-weight:bold;line-height:1.4}
+.game{padding:18px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hud div{background:#ffffff12;border-radius:12px;padding:9px;text-align:center;font-weight:bold}
+.progress{height:14px;background:#ffffff20;border-radius:99px;overflow:hidden;margin:12px 0 16px}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#ffd24a,#f28c28,#e5567e);transition:.35s}
+.card{background:var(--cream);color:#222;border-radius:20px;padding:18px;box-shadow:inset 0 0 0 4px #efc87c}
+.card h2{text-align:center;color:#7d2f64;margin:0}
+.scene{min-height:210px;background:linear-gradient(135deg,#dff2ff,#ffe5ef);border-radius:18px;margin:14px 0;display:flex;align-items:center;justify-content:center;gap:18px;padding:18px;position:relative;overflow:hidden}
+.person{font-size:66px}.group{font-size:48px}.alone{opacity:.85}.sad{filter:grayscale(.15)}
+.bubble{background:#fff;border:3px solid #7d2f64;color:#7d2f64;border-radius:18px;padding:12px;font-weight:bold;max-width:190px;position:relative}
+.bubble:after{content:"";position:absolute;bottom:-14px;left:25px;border:8px solid transparent;border-top-color:#7d2f64}
+.phone{background:#222;border:8px solid #555;border-radius:24px;padding:18px;min-width:220px;color:#fff}.msg{background:#f5f5f5;color:#222;padding:9px;border-radius:12px;margin:8px 0}
+.culture,.hands,.support{font-size:58px;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap}
+.classroom{font-size:50px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}.classroom span{display:inline-block}
+.finalscene{display:grid;gap:10px;text-align:center;font-size:42px}.finalscene div{background:#fff;color:#5b2a86;padding:8px 14px;border-radius:12px;font-size:20px;font-weight:bold}
+.prompt{font-size:clamp(18px,2.4vw,25px);font-weight:bold;text-align:center;min-height:62px;display:flex;align-items:center;justify-content:center}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answer{border:none;border-radius:13px;background:#fff;padding:14px;font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 4px 0 #d2b16e;min-height:70px}
+.answer:hover{transform:translateY(-2px)}
+.answer:disabled{cursor:not-allowed;opacity:.78}
+.feedback{display:none;margin-top:14px;border-radius:14px;padding:13px;font-weight:bold;line-height:1.4}
+.feedback.good{background:#d8f5e6;color:#155f3a;display:block}
+.feedback.bad{background:#ffe0e5;color:#8c2333;display:block}
+.next{display:none;width:100%;margin-top:10px;border:none;background:#6b2c91;color:white;border-radius:12px;padding:12px;font-weight:bold;font-size:17px;cursor:pointer}
+.finish{display:none;text-align:center;padding:26px}
+.finish .icon{font-size:88px}
+.finish button{background:#e5567e;color:#fff;border:none;border-radius:12px;padding:13px 20px;font-size:18px;font-weight:bold}
+@media(max-width:860px){.shell{grid-template-columns:1fr}}
+@media(max-width:560px){.answers{grid-template-columns:1fr}.hud{grid-template-columns:1fr 1fr}.scene{min-height:180px}.person{font-size:52px}.group{font-size:38px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🤝 Missão Respeito</h1>
+<p>Bullying, convivência e Educação para as Relações Étnico-Raciais</p>
+</header>
+<div class="shell">
+<section class="panel side">
+<div class="badge"><div class="icon">🐶🛡️</div><h2>Infinity Dog — Guardião do Respeito</h2><p>Escolha atitudes que protejam, acolham e promovam igualdade.</p></div>
+<div class="values">
+<div class="value">🤝 Respeito</div><div class="value">⚖️ Equidade</div>
+<div class="value">🗣️ Diálogo</div><div class="value">🛡️ Proteção</div>
+</div>
+<div class="guide">Este jogo trabalha situações do cotidiano escolar. Não substitui a conversa com professores, responsáveis ou profissionais da escola. Em casos reais, procure ajuda de um adulto de confiança.</div>
+</section>
+
+<section class="panel game">
+<div class="hud">
+<div>⭐ Pontos<br><span id="points">0</span></div>
+<div>✅ Acertos<br><span id="hits">0/15</span></div>
+<div>🛡️ Proteções<br><span id="shields">0</span></div>
+<div>🎯 Situação<br><span id="count">1/15</span></div>
+</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+
+<div id="play">
+<div class="card">
+<h2 id="title"></h2>
+<div class="scene" id="scene"></div>
+<div class="prompt" id="prompt"></div>
+<div class="answers" id="answers"></div>
+<div class="feedback" id="feedback"></div>
+<button class="next" id="next">Próxima situação ➜</button>
+</div>
+</div>
+
+<div class="finish" id="finish">
+<div class="icon">🏆🤝🌍</div>
+<h2>Missão concluída!</h2>
+<p id="finalText"></p>
+<button onclick="restart()">Jogar novamente</button>
+</div>
+</section>
+</div>
+
+<script>
+const questions=[{"title": "Respeito ao cabelo", "scene": "<div class='scene'><div class='person dark'>👧🏿</div><div class='bubble'>Seu cabelo é estranho!</div><div class='person'>🧑🏻</div></div>", "prompt": "Uma estudante faz comentários ofensivos sobre o cabelo crespo de uma colega. Qual é a melhor atitude?", "options": ["Rir para não ficar de fora", "Dizer que é brincadeira", "Interromper a ofensa e apoiar a colega", "Filmar e publicar"], "answer": "Interromper a ofensa e apoiar a colega", "explain": "Comentários sobre cabelo, cor da pele ou origem podem ser discriminatórios. Apoiar a vítima e procurar um adulto responsável ajuda a romper o ciclo de violência."}, {"title": "Apelidos repetidos", "scene": "<div class='scene'><div class='person'>🧒🏽</div><div class='bubble'>Não gosto desse apelido.</div><div class='group'>👦🏻 👧🏼 👦🏾</div></div>", "prompt": "Um aluno pede para não ser chamado por um apelido que o deixa constrangido. O que deve acontecer?", "options": ["Continuar porque todos acham engraçado", "Respeitar o pedido e usar seu nome", "Criar outro apelido", "Ignorar o que ele sente"], "answer": "Respeitar o pedido e usar seu nome", "explain": "Quando alguém demonstra desconforto, a brincadeira deve parar. Respeitar o nome e os limites da pessoa é uma forma básica de dignidade."}, {"title": "Exclusão no grupo", "scene": "<div class='scene'><div class='group'>👧🏿 👦🏻 👧🏼</div><div class='desk'>📚</div><div class='person alone'>🧒🏾</div></div>", "prompt": "Durante um trabalho, um estudante é deixado de fora por causa de sua origem. Qual atitude é correta?", "options": ["Aceitar a exclusão", "Convidá-lo para participar em igualdade", "Formar outro grupo escondido", "Dizer que ele deve se acostumar"], "answer": "Convidá-lo para participar em igualdade", "explain": "Excluir alguém por raça, cor, origem ou cultura é discriminatório. A participação deve ser garantida com respeito e igualdade."}, {"title": "Mensagem no grupo", "scene": "<div class='phone'>📱<div class='msg'>Meme racista no grupo</div></div>", "prompt": "Um meme racista é enviado no grupo da turma. O que fazer?", "options": ["Compartilhar para mais pessoas", "Responder com outro meme", "Não compartilhar, sinalizar e avisar um adulto", "Curtir sem comentar"], "answer": "Não compartilhar, sinalizar e avisar um adulto", "explain": "Conteúdos racistas não devem ser normalizados nem reproduzidos. Guardar evidências e comunicar a escola ou responsáveis é uma atitude segura."}, {"title": "Testemunha do bullying", "scene": "<div class='scene'><div class='person sad'>🧑🏽</div><div class='group'>👦🏻 👦🏼</div><div class='person witness'>👧🏾</div></div>", "prompt": "Você presencia colegas humilhando um estudante no recreio. Qual é a melhor resposta?", "options": ["Fingir que não viu", "Entrar na provocação", "Apoiar a vítima e buscar ajuda", "Filmar para mostrar depois"], "answer": "Apoiar a vítima e buscar ajuda", "explain": "Quem presencia também pode agir. Sem se colocar em risco, é importante apoiar a vítima e procurar um professor, coordenador ou outro adulto."}, {"title": "Cultura e identidade", "scene": "<div class='culture'>🥁 🎭 📚 🌍</div>", "prompt": "Um estudante apresenta uma tradição de sua família e alguns colegas debocham. O que a turma deve fazer?", "options": ["Mandar parar a apresentação", "Valorizar e escutar com respeito", "Imitar de forma ofensiva", "Dizer que só uma cultura importa"], "answer": "Valorizar e escutar com respeito", "explain": "Conhecer diferentes culturas amplia o aprendizado. Respeitar tradições e identidades fortalece a convivência e combate preconceitos."}, {"title": "Cor da pele", "scene": "<div class='hands'>🤝🏿 🤝🏽 🤝🏻</div>", "prompt": "Um colega diz que determinada profissão 'não combina' com pessoas negras. Como responder?", "options": ["Concordar para evitar discussão", "Explicar que talento e profissão não dependem da cor da pele", "Mudar de assunto", "Fazer outra piada"], "answer": "Explicar que talento e profissão não dependem da cor da pele", "explain": "Profissões, capacidades e sonhos não têm cor. Questionar estereótipos é essencial para construir igualdade de oportunidades."}, {"title": "Brincadeira ou agressão?", "scene": "<div class='scene'><div class='person'>🧒🏻</div><div class='bubble'>É só brincadeira!</div><div class='person sad'>👧🏽</div></div>", "prompt": "Uma pessoa diz que foi apenas brincadeira, mas a outra ficou humilhada. O que importa?", "options": ["Só a intenção de quem fez", "O impacto causado e o pedido para parar", "A opinião da maioria", "Continuar até ela rir"], "answer": "O impacto causado e o pedido para parar", "explain": "Mesmo sem intenção, uma atitude pode ferir. Quando há sofrimento, repetição ou humilhação, é preciso interromper e reparar."}, {"title": "Liderança responsável", "scene": "<div class='classroom'>🏫<span>👩🏾‍🏫</span><span>🧑🏻‍🎓</span><span>👧🏽‍🎓</span><span>👦🏿‍🎓</span></div>", "prompt": "Como um líder de turma pode ajudar a combater bullying e racismo?", "options": ["Escolhendo sempre os mesmos colegas", "Criando regras de respeito e escuta", "Ignorando conflitos", "Expondo a vítima diante da turma"], "answer": "Criando regras de respeito e escuta", "explain": "Liderança responsável promove participação, diálogo, acolhimento e encaminhamento dos casos aos adultos responsáveis."}, {"title": "Pedido de ajuda", "scene": "<div class='support'>🧑🏽‍🎓 ➜ 👩🏻‍🏫</div>", "prompt": "Uma estudante relata que sofre ofensas frequentes. Qual deve ser a resposta de um adulto?", "options": ["Dizer para ela ignorar", "Escutar, acolher e tomar providências", "Pedir que ela enfrente sozinha", "Minimizar o ocorrido"], "answer": "Escutar, acolher e tomar providências", "explain": "Relatos de bullying ou discriminação devem ser levados a sério. Acolher, registrar e encaminhar são atitudes de proteção."}, {"title": "Redes sociais", "scene": "<div class='phone'>📱<div class='msg'>Comentário ofensivo</div><div class='msg'>Compartilhar?</div></div>", "prompt": "Qual atitude ajuda a prevenir o cyberbullying?", "options": ["Repassar prints para divertir o grupo", "Não compartilhar, denunciar e apoiar a vítima", "Criar uma conta falsa", "Responder com mais ofensas"], "answer": "Não compartilhar, denunciar e apoiar a vítima", "explain": "No ambiente digital, cada compartilhamento amplia o dano. Denunciar, bloquear e apoiar a vítima são medidas importantes."}, {"title": "Compromisso final", "scene": "<div class='finalscene'>🌍<div>RESPEITO</div><div>EQUIDADE</div><div>CONVIVÊNCIA</div></div>", "prompt": "Qual compromisso resume melhor uma escola segura e antirracista?", "options": ["Tratar todos de forma indiferente", "Respeitar diferenças, enfrentar injustiças e acolher quem sofre", "Evitar falar sobre o tema", "Punir sem diálogo nem educação"], "answer": "Respeitar diferenças, enfrentar injustiças e acolher quem sofre", "explain": "Uma escola segura reconhece diferenças, combate desigualdades e transforma conflitos em aprendizagem com responsabilidade."}];
+
+questions.push(
+{
+"title":"Linguagem respeitosa",
+"scene":"<div class='scene'><div class='group'>🗣️ 💬 🤝</div></div>",
+"prompt":"Durante uma discussão, qual atitude ajuda a resolver o conflito com respeito?",
+"options":["Usar ofensas","Ouvir, falar com calma e respeitar opiniões","Gritar mais alto","Humilhar quem pensa diferente"],
+"answer":"Ouvir, falar com calma e respeitar opiniões",
+"explain":"O diálogo respeitoso ajuda a resolver conflitos e fortalece a convivência."
+},
+{
+"title":"Inclusão nas atividades",
+"scene":"<div class='scene'><div class='group'>⚽ 👦🏽 👧🏿 👦🏻 ♿</div></div>",
+"prompt":"Na aula, um colega com deficiência ficou sem grupo. O que fazer?",
+"options":["Esperar o professor decidir","Convidá-lo para participar e adaptar a atividade","Ignorar a situação","Dizer que ele não consegue"],
+"answer":"Convidá-lo para participar e adaptar a atividade",
+"explain":"A inclusão garante que todos possam participar com respeito às suas necessidades."
+},
+{
+"title":"Construindo uma escola melhor",
+"scene":"<div class='finalscene'>🏫<div>RESPEITO</div><div>EMPATIA</div><div>COOPERAÇÃO</div></div>",
+"prompt":"Qual atitude contribui diariamente para uma escola acolhedora?",
+"options":["Respeitar as diferenças e ajudar os colegas","Espalhar boatos","Excluir quem é diferente","Responder agressivamente"],
+"answer":"Respeitar as diferenças e ajudar os colegas",
+"explain":"Pequenas atitudes de empatia e cooperação tornam o ambiente escolar mais seguro para todos."
+);
+
+let index=0,points=0,hits=0,shields=0,locked=false;
+
+function load(){
+ if(index>=questions.length)return finish();
+ locked=false;
+ const q=questions[index];
+ document.getElementById("title").textContent=q.title;
+ document.getElementById("scene").innerHTML=q.scene;
+ document.getElementById("prompt").textContent=q.prompt;
+ document.getElementById("count").textContent=(index+1)+"/15";
+ document.getElementById("bar").style.width=(index/15*100)+"%";
+ document.getElementById("feedback").className="feedback";
+ document.getElementById("feedback").textContent="";
+ document.getElementById("next").style.display="none";
+ const box=document.getElementById("answers");box.innerHTML="";
+ q.options.forEach(opt=>{
+  const b=document.createElement("button");
+  b.className="answer";b.textContent=opt;
+  b.onclick=()=>answer(opt,b);
+  box.appendChild(b);
+ });
+}
+
+function answer(v,btn){
+ if(locked)return;locked=true;
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+ const q=questions[index];
+ const feedback=document.getElementById("feedback");
+ if(v===q.answer){
+  points+=20;hits++;shields++;
+  btn.style.background="#c8f3d9";
+  feedback.className="feedback good";
+  feedback.innerHTML="✅ <b>Atitude responsável.</b><br>"+q.explain;
+ }else{
+  btn.style.background="#ffd6dc";
+  feedback.className="feedback bad";
+  feedback.innerHTML="⚠️ <b>Essa não é a melhor atitude.</b><br>"+q.explain+"<br><br><b>Resposta recomendada:</b> "+q.answer;
+ }
+ updateHud();
+ document.getElementById("next").style.display="block";
+}
+
+document.getElementById("next").onclick=()=>{index++;load()};
+
+function updateHud(){
+ document.getElementById("points").textContent=points;
+ document.getElementById("hits").textContent=hits+"/15";
+ document.getElementById("shields").textContent=shields;
+}
+
+function finish(){
+ document.getElementById("play").style.display="none";
+ document.getElementById("finish").style.display="block";
+ document.getElementById("bar").style.width="100%";
+ const medal=hits>=11?"🥇 Guardião do Respeito":hits>=9?"🥈 Agente da Convivência":hits>=7?"🥉 Defensor da Igualdade":"⭐ Aprendiz do Respeito";
+ document.getElementById("finalText").innerHTML="Você fez <b>"+points+" pontos</b>, acertou <b>"+hits+" de 15 situações</b> e conquistou o título <b>"+medal+"</b>.<br><br>Respeitar diferenças, enfrentar injustiças e acolher quem sofre são atitudes que transformam a escola.";
+}
+
+function restart(){
+ index=0;points=0;hits=0;shields=0;locked=false;
+ document.getElementById("play").style.display="block";
+ document.getElementById("finish").style.display="none";
+ updateHud();load();
+}
+updateHud();load();
+</script>
+</body>
+</html>
