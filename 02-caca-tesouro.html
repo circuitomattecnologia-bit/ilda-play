@@ -175,8 +175,8 @@ header::before{
 </div>
 
 <div class="finish" id="finish">
-<div class="chest">💰🏆💎</div>
-<h2>Tesouro encontrado!</h2>
+<div class="chest" id="finishIcon">💰🏆💎</div>
+<h2 id="finishTitle">Tesouro encontrado!</h2>
 <p id="finalText"></p>
 <button onclick="restart()">Jogar novamente</button>
 </div>
@@ -266,7 +266,7 @@ function answer(v,btn){
    btn.style.background="#bff4cd"; btn.classList.add("correctFlash"); correctFx();
    document.getElementById("message").textContent="🐶 Infinity Dog: Excelente! Você encontrou uma nova chave!";
  } else {
-   lives--; btn.style.background="#ffd0d0"; btn.classList.add("wrongFlash"); wrongFx();
+   lives=Math.max(0,lives-1); btn.style.background="#ffd0d0"; btn.classList.add("wrongFlash"); wrongFx();
    document.getElementById("message").textContent=`🐶 Infinity Dog: Quase! A resposta correta era ${correct}. Vamos continuar!`;
  }
  updateHud();
@@ -284,13 +284,26 @@ function updateHud(){
  document.getElementById("lives").textContent=lives;
 }
 function finish(){
+ const total=questions.length;
+ const errors=total-keys;
+ const percent=Math.round((keys/total)*100);
+ const won=keys>=7;
+ const medal=keys>=9?"🥇 Ouro":keys>=7?"🥈 Prata":keys>=5?"🥉 Bronze":"⭐ Explorador";
  document.getElementById("play").style.display="none";
  document.getElementById("finish").style.display="block";
  document.getElementById("bar").style.width="100%";
  drawMap();
- let medal=keys>=9?"🥇 Ouro":keys>=7?"🥈 Prata":keys>=5?"🥉 Bronze":"⭐ Explorador";
- document.getElementById("finalText").innerHTML=`Você conquistou <b>${points} pontos</b>, encontrou <b>${keys} de 10 chaves</b> e recebeu a medalha <b>${medal}</b>.<br><br>O Infinity Dog agradece sua ajuda!`;
- localStorage.setItem("tesouro_recorde",Math.max(points,Number(localStorage.getItem("tesouro_recorde")||0))); victoryFx(); coinConfetti();
+ document.getElementById("finishTitle").textContent=won?"Tesouro encontrado!":"Tesouro ainda protegido";
+ document.getElementById("finishIcon").textContent=won?"💰🏆💎":"🗺️🔒🐾";
+ document.getElementById("finalText").innerHTML=won
+  ? `Missão concluída! Você conquistou <b>${points} pontos</b>, encontrou <b>${keys} de ${total} chaves</b> e alcançou <b>${percent}% de aproveitamento</b>.<br>Erros: <b>${errors}</b> · Medalha: <b>${medal}</b>.<br><br>🐶 Infinity Dog: Excelente! O grande baú foi desbloqueado!`
+  : `Você encontrou <b>${keys} de ${total} chaves</b>, teve <b>${errors} erros</b> e alcançou <b>${percent}% de aproveitamento</b>.<br>Para abrir o grande baú, é necessário encontrar pelo menos <b>7 chaves</b>.<br><br>🐶 Infinity Dog: O tesouro ainda está protegido. Tente novamente!`;
+ if(won){
+  localStorage.setItem("tesouro_recorde",Math.max(points,Number(localStorage.getItem("tesouro_recorde")||0)));
+  victoryFx();coinConfetti();
+ }else{
+  wrongFx();
+ }
 }
 function restart(){
  index=0;points=0;keys=0;lives=5;locked=false;hintUsed=false;

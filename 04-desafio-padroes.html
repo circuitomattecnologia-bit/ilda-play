@@ -279,7 +279,7 @@ function answer(v,btn){
    document.getElementById("message").textContent="✅ Muito bem! Você descobriu a lógica do padrão.";
    document.getElementById("guide").textContent="🐶 Infinity Dog: excelente observação! Mais uma peça foi conquistada.";
  } else {
-   lives--;
+   lives=Math.max(0,lives-1);
    btn.style.background="#ffd0d0"; btn.classList.add("wrongFlash"); wrongFx();
    document.getElementById("message").textContent=`❌ Quase! A resposta correta era ${correct}.`;
    document.getElementById("guide").textContent="🐶 Infinity Dog: observe novamente a ordem, a quantidade e a repetição.";
@@ -306,9 +306,24 @@ function finish(){
  document.getElementById("finish").style.display="block";
  document.getElementById("bar").style.width="100%";
  drawWall();
+ const total=questions.length;
+ const errors=total-patterns;
+ const accuracy=Math.round((patterns/total)*100);
+ const approved=patterns>=7;
  const medal=patterns>=9?"🥇 Mestre dos Padrões":patterns>=7?"🥈 Observador":patterns>=5?"🥉 Explorador":"⭐ Aprendiz";
- document.getElementById("finalText").innerHTML=`Você fez <b>${points} pontos</b>, completou <b>${patterns} de 10 padrões</b> e conquistou o título <b>${medal}</b>.<br><br>O Infinity Dog reconhece sua atenção e raciocínio lógico!`;
- localStorage.setItem("padroes_recorde",Math.max(points,Number(localStorage.getItem("padroes_recorde")||0))); victoryFx(); patternRain();
+ const title=document.querySelector("#finish h2");
+ const icon=document.querySelector("#finish .icon");
+ if(approved){
+   title.textContent="Missão dos padrões concluída!";
+   icon.textContent="🏆";
+   document.getElementById("finalText").innerHTML=`Você identificou <b>${patterns} de ${total} padrões</b>, teve <b>${errors} erro(s)</b>, alcançou <b>${accuracy}% de aproveitamento</b> e fez <b>${points} pontos</b>.<br><br>Classificação: <b>${medal}</b>. O Infinity Dog reconhece sua atenção e raciocínio lógico!`;
+   localStorage.setItem("padroes_recorde",Math.max(points,Number(localStorage.getItem("padroes_recorde")||0)));
+   victoryFx(); patternRain();
+ }else{
+   title.textContent="Missão ainda não concluída";
+   icon.textContent="🔒";
+   document.getElementById("finalText").innerHTML=`Você identificou <b>${patterns} de ${total} padrões</b>, teve <b>${errors} erro(s)</b> e alcançou <b>${accuracy}% de aproveitamento</b>.<br><br>Para concluir a missão, identifique corretamente pelo menos <b>7 padrões</b>. Observe as sequências e tente novamente!`;
+ }
 }
 
 function restart(){

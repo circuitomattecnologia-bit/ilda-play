@@ -280,7 +280,18 @@ function transformWorld(i){
 
 function finishGame(){
   bar.style.width="100%";
-  makeConfetti();victorySound();
+  const completed=mission>=missions.length;
+  if(!completed){
+    feedback.textContent="🌱 Complete todas as missões ecológicas antes de finalizar.";
+    wrongSound();
+    return;
+  }
+  makeConfetti();
+  victorySound();
+  const finalText=document.querySelector("#finish p");
+  if(finalText){
+    finalText.innerHTML="Você concluiu <b>10 de 10 missões ecológicas</b>, transformou o cenário e conquistou <b>"+points+" pontos</b>.<br><br>Sua criatividade ajudou a reconstruir um planeta mais saudável e sustentável!";
+  }
   setTimeout(()=>finish.classList.add("show"),1200);
 }
 function makeConfetti(){

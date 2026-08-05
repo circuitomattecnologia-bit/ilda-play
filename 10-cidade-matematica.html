@@ -133,7 +133,7 @@ cursor:not-allowed;filter:brightness(.42) saturate(.5);transition:all .55s;text-
 <div class="finish" id="finish">
   <div class="finishBox">
     <div style="font-size:96px">🌆✨🐶💎</div>
-    <h2>Cidade totalmente iluminada!</h2>
+    <h2 id="finishTitle">Cidade totalmente iluminada!</h2>
     <p id="finishText"></p>
     <button class="startBtn" onclick="location.reload()">Jogar novamente</button>
   </div>
@@ -146,7 +146,7 @@ cursor:not-allowed;filter:brightness(.42) saturate(.5);transition:all .55s;text-
 <script>
 const questions=[{"name": "Banco dos Números", "icon": "🏦", "q": "Uma escola recebeu 864 livros para distribuir igualmente em 12 salas. Quantos livros cada sala receberá?", "options": ["62", "72", "82", "92"], "answer": "72", "hint": "Divida 864 por 12.", "explain": "864 ÷ 12 = 72."}, {"name": "Mercado Inteligente", "icon": "🛒", "q": "Uma compra tem 4 caixas de suco a R$ 18,50 e 3 pacotes de biscoito a R$ 7,00. Qual é o total?", "options": ["R$ 88,00", "R$ 92,00", "R$ 95,00", "R$ 98,00"], "answer": "R$ 95,00", "hint": "Calcule 4 × 18,50 e 3 × 7,00; depois some.", "explain": "74,00 + 21,00 = R$ 95,00."}, {"name": "Praça dos Padrões", "icon": "🧩", "q": "Complete a sequência: 5, 10, 20, 40, 80, ...", "options": ["100", "120", "140", "160"], "answer": "160", "hint": "Cada termo é o dobro do anterior.", "explain": "80 × 2 = 160."}, {"name": "Estação Geométrica", "icon": "📐", "q": "Uma praça retangular mede 18 m de comprimento e 14 m de largura. Qual é sua área?", "options": ["126 m²", "216 m²", "252 m²", "288 m²"], "answer": "252 m²", "hint": "Multiplique comprimento por largura.", "explain": "18 × 14 = 252 m²."}, {"name": "Torre dos Sólidos", "icon": "🏢", "q": "Um reservatório mede 6 m × 4 m × 3 m. Qual é o seu volume?", "options": ["48 m³", "60 m³", "72 m³", "84 m³"], "answer": "72 m³", "hint": "Multiplique as três dimensões.", "explain": "6 × 4 × 3 = 72 m³."}, {"name": "Avenida da Lógica", "icon": "🚦", "q": "Três drones A, B e C chegaram em horários diferentes. A não chegou primeiro e B chegou depois de C. Quem chegou primeiro?", "options": ["Drone A", "Drone B", "Drone C", "Não é possível saber"], "answer": "Drone C", "hint": "Se B chegou depois de C e A não foi o primeiro, sobra apenas C.", "explain": "O Drone C foi o primeiro."}, {"name": "Laboratório das Frações", "icon": "🧪", "q": "Em uma oficina, 3/5 de 300 estudantes participaram da atividade principal. Quantos participaram?", "options": ["120", "150", "180", "200"], "answer": "180", "hint": "Divida 300 por 5 e multiplique por 3.", "explain": "300 ÷ 5 = 60; 60 × 3 = 180."}, {"name": "Observatório da Média", "icon": "🔭", "q": "As visitas ao portal em quatro dias foram 140, 160, 200 e 220. Qual foi a média diária?", "options": ["170", "175", "180", "185"], "answer": "180", "hint": "Some os valores e divida por 4.", "explain": "(140 + 160 + 200 + 220) ÷ 4 = 180."}, {"name": "Usina Exponencial", "icon": "⚡", "q": "Uma central começa com 150 unidades de energia e dobra a produção a cada hora. Quantas unidades terá após 4 horas?", "options": ["1.200", "1.800", "2.400", "3.000"], "answer": "2.400", "hint": "Use 150 × 2⁴.", "explain": "150 × 16 = 2.400."}, {"name": "Prefeitura da Matemática", "icon": "🏛️", "q": "A cidade investiu R$ 20.000,00. Foram usados 35% em tecnologia e 25% em infraestrutura. Quanto restou?", "options": ["R$ 6.000,00", "R$ 7.000,00", "R$ 8.000,00", "R$ 9.000,00"], "answer": "R$ 8.000,00", "hint": "Foram usados 60%; portanto, restaram 40%.", "explain": "40% de 20.000 = R$ 8.000,00."}];
 const city=document.getElementById("city");
-let current=0,points=0,crystals=0,lives=5,answered=false,hintUsed=false;
+let current=0,points=0,crystals=0,lives=5,errors=0,answered=false,hintUsed=false;
 
 function buildCity(){
   questions.forEach((q,i)=>{
@@ -210,6 +210,7 @@ function checkAnswer(value,btn){
     feedback.innerHTML="❌ Ainda não. Tente novamente ou use a pista.";
     playWrong();
     updateHud();
+    if(lives===0){setTimeout(()=>failGame(),500);}
   }
 }
 
@@ -249,9 +250,19 @@ function finishGame(){
   makeConfetti();
   playFinal();
   setTimeout(()=>{
+    finishTitle.textContent="Cidade totalmente iluminada!";
     finish.classList.add("show");
-    finishText.innerHTML="Você recuperou <b>10 cristais</b>, restaurou todos os bairros e fez <b>"+points+" pontos</b>.<br><br>O Infinity Dog agradece por salvar a Cidade da Matemática!";
+    const percent=Math.round(questions.length/(questions.length+errors)*100);
+    finishText.innerHTML="Você recuperou <b>10 cristais</b>, cometeu <b>"+errors+" erro(s)</b>, alcançou <b>"+percent+"% de precisão</b> e fez <b>"+points+" pontos</b>.<br><br>O Infinity Dog agradece por salvar a Cidade da Matemática!";
   },1800);
+}
+
+function failGame(){
+  modal.classList.remove("show");
+  finishTitle.textContent="Energia esgotada — cidade ainda apagada";
+  finish.classList.add("show");
+  const completed=current;
+  finishText.innerHTML="Você restaurou <b>"+crystals+" de 10 bairros</b> e cometeu <b>"+errors+" erros</b>.<br><br>Revise as pistas e tente novamente para iluminar toda a cidade.";
 }
 
 function makeConfetti(){

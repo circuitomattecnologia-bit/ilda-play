@@ -317,11 +317,27 @@ function updateHud(){
 
 function finish(){
  document.getElementById("play").style.display="none";
- document.getElementById("finish").style.display="block";
+ const finishBox=document.getElementById("finish");
+ finishBox.style.display="block";
  document.getElementById("bar").style.width="100%";
  index=questions.length;drawMaze();
+ const total=questions.length;
+ const percentual=Math.round((hits/total)*100);
+ const erros=total-hits;
+ const aprovado=hits>=9;
  const medal=hits>=11?"🥇 Guardião do Trânsito":hits>=9?"🥈 Condutor Consciente":hits>=7?"🥉 Pedestre Seguro":"⭐ Aprendiz da Segurança";
- document.getElementById("finalText").innerHTML="Você fez <b>"+points+" pontos</b>, acertou <b>"+hits+" de 12 desafios</b> e conquistou o título <b>"+medal+"</b>.<br><br>Respeitar as regras de trânsito é proteger a própria vida e a vida de todos."; victoryFx(); trafficRain();
+ const titulo=finishBox.querySelector("h2");
+ const icon=finishBox.querySelector(".icon");
+ if(aprovado){
+  titulo.textContent="Chegada segura!";
+  icon.textContent="🏁🐶🚦";
+  document.getElementById("finalText").innerHTML="Você fez <b>"+points+" pontos</b>, acertou <b>"+hits+" de "+total+" desafios</b> ("+percentual+"%) e conquistou o título <b>"+medal+"</b>.<br>Erros: <b>"+erros+"</b>.<br><br>Respeitar as regras de trânsito é proteger a própria vida e a vida de todos.";
+  victoryFx();trafficRain();
+ }else{
+  titulo.textContent="Percurso ainda não concluído";
+  icon.textContent="🔒🐶🚦";
+  document.getElementById("finalText").innerHTML="Você acertou <b>"+hits+" de "+total+" desafios</b> ("+percentual+"%) e fez <b>"+points+" pontos</b>.<br>Para chegar com segurança, é necessário acertar pelo menos <b>9 desafios</b>. Revise as orientações e tente novamente!";
+ }
 }
 
 function restart(){

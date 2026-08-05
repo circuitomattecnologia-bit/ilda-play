@@ -183,8 +183,8 @@ header::before{
 </div>
 
 <div class="finish" id="finish">
-<div class="open">🔓💰✨</div>
-<h2>Cofre aberto!</h2>
+<div class="open" id="finishIcon">🔓💰✨</div>
+<h2 id="finishTitle">Cofre aberto!</h2>
 <p id="finalText"></p>
 <button onclick="restart()">Jogar novamente</button>
 </div>
@@ -279,7 +279,7 @@ function answer(v,btn){
   document.getElementById("message").textContent="✅ Código correto! Uma nova trava foi liberada.";
   document.getElementById("guide").textContent="🐶 Infinity Dog: ótimo trabalho! O cofre está cada vez mais perto de abrir.";
  } else {
-  lives--;
+  lives=Math.max(0,lives-1);
   btn.style.background="#ffd0d0"; btn.classList.add("wrongFlash"); wrongFx();
   document.getElementById("message").textContent=`❌ Código incorreto. A resposta certa era ${correct}.`;
   document.getElementById("guide").textContent="🐶 Infinity Dog: não desanime. Cada tentativa ajuda você a aprender!";
@@ -302,13 +302,28 @@ function updateHud(){
 }
 
 function finish(){
+ const total=questions.length;
+ const errors=total-locks;
+ const percent=Math.round((locks/total)*100);
+ const won=locks>=7;
+ const medal=locks>=9?"🥇 Mestre do Cofre":locks>=7?"🥈 Decifrador":locks>=5?"🥉 Explorador":"⭐ Aprendiz";
  document.getElementById("play").style.display="none";
  document.getElementById("finish").style.display="block";
  document.getElementById("bar").style.width="100%";
  drawLights();
- const medal=locks>=9?"🥇 Mestre do Cofre":locks>=7?"🥈 Decifrador":locks>=5?"🥉 Explorador":"⭐ Aprendiz";
- document.getElementById("finalText").innerHTML=`Você fez <b>${points} pontos</b>, liberou <b>${locks} de 10 travas</b> e conquistou o título <b>${medal}</b>.<br><br>O Cofre Mestre foi aberto com sucesso!`;
- localStorage.setItem("cofre_recorde",Math.max(points,Number(localStorage.getItem("cofre_recorde")||0))); document.querySelector(".vault").classList.add("opened"); victoryFx(); treasureRain();
+ document.getElementById("finishTitle").textContent=won?"Cofre aberto!":"Cofre ainda bloqueado";
+ document.getElementById("finishIcon").textContent=won?"🔓💰✨":"🔐⚙️🐾";
+ document.getElementById("finalText").innerHTML=won
+  ? `Missão concluída! Você fez <b>${points} pontos</b>, liberou <b>${locks} de ${total} travas</b> e alcançou <b>${percent}% de aproveitamento</b>.<br>Erros: <b>${errors}</b> · Título: <b>${medal}</b>.<br><br>🐶 Infinity Dog: Código aceito! O Cofre Mestre foi aberto!`
+  : `Você liberou <b>${locks} de ${total} travas</b>, teve <b>${errors} erros</b> e alcançou <b>${percent}% de aproveitamento</b>.<br>Para abrir o Cofre Mestre, é necessário liberar pelo menos <b>7 travas</b>.<br><br>🐶 Infinity Dog: O cofre continua bloqueado. Revise os códigos e tente novamente!`;
+ if(won){
+  localStorage.setItem("cofre_recorde",Math.max(points,Number(localStorage.getItem("cofre_recorde")||0)));
+  document.querySelector(".vault").classList.add("opened");
+  victoryFx();treasureRain();
+ }else{
+  document.querySelector(".vault").classList.remove("opened");
+  wrongFx();
+ }
 }
 
 function restart(){

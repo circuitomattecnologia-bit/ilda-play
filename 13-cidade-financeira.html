@@ -232,7 +232,7 @@ function choose(opt,btn){
   document.querySelectorAll(".answer").forEach(x=>x.disabled=true);
 
   saldo+=opt.saldo;
-  reserva+=opt.reserva;
+  reserva=Math.max(0,reserva+opt.reserva);
   bem=Math.max(0,Math.min(100,bem+opt.bem));
 
   const m=missions[current];
@@ -320,22 +320,31 @@ function updateHud(){
 
 function finishGame(){
   refreshCity();
-  makeConfetti();
-  victorySound();
+  const total=missions.length;
+  const percent=Math.round((corrects/total)*100);
+  const approved=corrects>=10;
+
+  if(approved){
+    makeConfetti();
+    victorySound();
+  }else{
+    negativeSound();
+    cityMessage.textContent="🔒 A cidade financeira ainda precisa de decisões mais conscientes.";
+  }
 
   let medal,title;
   if(corrects>=13 && reserva>=1200){
     medal="💎 Mestre da Educação Financeira";
     title="Excelente planejamento!";
-  }else if(corrects>=7){
+  }else if(corrects>=10){
     medal="🥇 Planejador Financeiro";
-    title="Muito boas escolhas!";
-  }else if(corrects>=5){
+    title="Missão concluída!";
+  }else if(corrects>=7){
     medal="🥈 Consumidor Consciente";
-    title="Você está aprendendo a planejar!";
+    title="Missão ainda não concluída";
   }else{
     medal="🥉 Aprendiz Financeiro";
-    title="Toda escolha é uma oportunidade de aprender!";
+    title="Missão ainda não concluída";
   }
 
   setTimeout(()=>{
@@ -344,11 +353,14 @@ function finishGame(){
       "<b>"+title+"</b><br><br>"+
       "Saldo final: <b>"+money(saldo)+"</b><br>"+
       "Reserva construída: <b>"+money(reserva)+"</b><br>"+
-      "Decisões conscientes: <b>"+corrects+" de 10</b><br>"+
+      "Decisões conscientes: <b>"+corrects+" de "+total+"</b><br>"+
+      "Aproveitamento: <b>"+percent+"%</b><br>"+
       "Pontuação: <b>"+points+"</b><br><br>"+
-      "Medalha: <b>"+medal+"</b><br><br>"+
-      "Planejar, economizar em casa e na escola, guardar com regularidade e investir com segurança ajudam a construir o futuro e realizar sonhos.";
-  },1200);
+      "Classificação: <b>"+medal+"</b><br><br>"+
+      (approved
+        ? "Planejar, economizar, guardar com regularidade e investir com segurança ajudam a construir o futuro e realizar sonhos."
+        : "Para concluir a missão, alcance pelo menos 10 decisões conscientes. Revise as orientações e tente novamente.");
+  },approved?1200:350);
 }
 
 function makeConfetti(){

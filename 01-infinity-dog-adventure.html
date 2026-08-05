@@ -262,7 +262,7 @@ body{overflow-x:hidden}
 <div id="finalScreen" class="overlay hidden">
   <div class="intro-card final-card">
     <div class="hero-dog">🏆🤖🐶</div>
-    <h1 class="final-title">Guardião do Conhecimento!</h1>
+    <h1 class="final-title" id="finalTitle">Guardião do Conhecimento!</h1>
     <p id="finalText"></p>
     <div class="knowledge-grid">
       <div class="knowledge-item">💻</div><div class="knowledge-item">📚</div>
@@ -375,7 +375,8 @@ const questions = [
  {c:"Desafio Final",q:"O código final é formado pelo triplo de 18 menos 9. Qual é o código?",a:["36","45","54","63"],ok:1,h:"Primeiro calcule 3 × 18 e depois subtraia 9."}
 ];
 
-let index=0,score=0,lives=3,answered=false,hintUsed=false,collected=0;
+let index=0,score=0,lives=3,answered=false,hintUsed=false,collected=0,errors=0;
+const MIN_ACERTOS=7;
 
 function showMission(){
  document.getElementById("startScreen").classList.add("hidden");
@@ -423,18 +424,16 @@ function choose(choice,btn){
    collectCrystal(index);
    document.getElementById("speech").textContent="Cristal recuperado! O portal está ficando mais forte!";
  }else{
-   btn.classList.add("wrong"); lives=Math.max(0,lives-1);
-   fb.textContent=`❌ Quase! A resposta correta é: ${item.a[item.ok]}. O cristal foi recuperado com a ajuda do Infinity Dog.`; wrongFx();
+   btn.classList.add("wrong"); lives=Math.max(0,lives-1); errors++;
+   fb.textContent=`❌ Ainda não! A resposta correta é: ${item.a[item.ok]}. Este cristal não foi recuperado.`; wrongFx();
    fb.style.background="#592238";fb.style.border="2px solid #ff7892";
-   collectCrystal(index);
-   collected++;
-   document.getElementById("speech").textContent="Não desista! Aprender também é tentar novamente.";
+   document.getElementById("speech").textContent="Não desista! Observe a explicação e siga para o próximo desafio.";
  }
  fb.classList.add("show");
  document.getElementById("score").textContent=score;
  document.getElementById("lives").textContent=lives;
  document.getElementById("count").textContent=collected;
- document.getElementById("progressBar").style.width=(collected*10)+"%";
+ document.getElementById("progressBar").style.width=((index+1)*10)+"%";
  document.getElementById("nextBtn").classList.remove("hidden");
 }
 function collectCrystal(i){
@@ -460,17 +459,31 @@ function useHint(){
  fb.style.background="#4e3d0d";fb.style.border="2px solid #ffd84d";fb.classList.add("show");
 }
 function finishAdventure(){
- document.getElementById("speech").textContent="Conseguimos! Os 10 cristais estão ativando o portal!";
+ const percentual=Math.round((collected/questions.length)*100);
+ const aprovado=collected>=MIN_ACERTOS;
  document.getElementById("dogWrap").style.left="76%";
- setTimeout(()=>{document.getElementById("portal").classList.add("open");portalFx();},900);
- setTimeout(()=>{
-   document.getElementById("finalText").textContent=
-   `Você recuperou os 10 Cristais do Conhecimento e abriu o portal com ${score} pontos. Continue aprendendo, explorando e transformando o mundo!`;
-   document.getElementById("finalScreen").classList.remove("hidden");victoryFx();adventureRain();
- },3600);
+ if(aprovado){
+   document.getElementById("speech").textContent="Missão cumprida! A energia conquistada está abrindo o portal!";
+   setTimeout(()=>{document.getElementById("portal").classList.add("open");portalFx();},900);
+   setTimeout(()=>{
+     document.getElementById("finalTitle").textContent="Guardião do Conhecimento!";
+     document.getElementById("finalText").textContent=
+     `Parabéns! Você recuperou ${collected} de 10 cristais, alcançou ${percentual}% de aproveitamento e abriu o portal com ${score} pontos. Erros: ${errors}.`;
+     document.getElementById("finalScreen").classList.remove("hidden");victoryFx();adventureRain();
+   },2600);
+ }else{
+   document.getElementById("speech").textContent="O portal ainda precisa de mais energia. Vamos tentar novamente!";
+   document.getElementById("portal").classList.remove("open");
+   setTimeout(()=>{
+     document.getElementById("finalTitle").textContent="Missão ainda não concluída";
+     document.getElementById("finalText").textContent=
+     `Você recuperou ${collected} de 10 cristais (${percentual}%) e fez ${score} pontos. Para abrir o portal, é necessário recuperar pelo menos ${MIN_ACERTOS} cristais. Erros: ${errors}.`;
+     document.getElementById("finalScreen").classList.remove("hidden");wrongFx();
+   },1000);
+ }
 }
 function restartGame(){
- index=0;score=0;lives=3;answered=false;hintUsed=false;collected=0;
+ index=0;score=0;lives=3;answered=false;hintUsed=false;collected=0;errors=0;
  document.getElementById("score").textContent=0;
  document.getElementById("lives").textContent=3;
  document.getElementById("count").textContent=0;
@@ -478,6 +491,7 @@ function restartGame(){
  document.getElementById("portal").classList.remove("open");
  document.getElementById("dogWrap").style.left="6%";
  document.getElementById("finalScreen").classList.add("hidden");
+ document.getElementById("finalTitle").textContent="Guardião do Conhecimento!";
  buildCrystals();render();
 }
 

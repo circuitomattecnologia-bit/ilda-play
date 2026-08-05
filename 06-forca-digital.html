@@ -233,7 +233,7 @@ function digitalRain(){
 
 const items=[{"word": "EQUILIBRIO", "clue": "Usar o celular sem deixar de estudar, brincar, conversar e descansar.", "figure": "⚖️ 📱 📚 ⚽", "tip": "O celular pode fazer parte da rotina, mas não deve ocupar todo o tempo."}, {"word": "DESCANSO", "clue": "Momento importante para o corpo e a mente, especialmente à noite.", "figure": "🌙 😴 📵", "tip": "Criar um horário para deixar o celular de lado pode ajudar a preparar o sono."}, {"word": "DIALOGO", "clue": "Conversar olhando nos olhos e ouvindo com atenção.", "figure": "🗣️ 👂 🤝", "tip": "Conversas presenciais fortalecem vínculos e ajudam na convivência."}, {"word": "LIMITES", "clue": "Regras combinadas para organizar o tempo de uso das telas.", "figure": "⏰ 📱 ✅", "tip": "Combinar horários e espaços sem celular torna a rotina mais organizada."}, {"word": "PRIVACIDADE", "clue": "Cuidado com fotos, senhas, dados pessoais e informações compartilhadas.", "figure": "🔒 📱 👤", "tip": "Nunca compartilhe senhas e pense antes de publicar informações pessoais."}, {"word": "RESPEITO", "clue": "Atitude necessária também em mensagens, comentários e grupos.", "figure": "🤝 💬 ❤️", "tip": "No ambiente digital, palavras também podem ferir. Pense antes de enviar."}, {"word": "MOVIMENTO", "clue": "Atividade importante para não passar o dia inteiro sentado diante da tela.", "figure": "🏃‍♀️ 🚲 ⚽", "tip": "Brincar, caminhar, pedalar e praticar esportes também fazem parte de uma rotina saudável."}, {"word": "ATENCAO", "clue": "Algo que pode diminuir quando usamos o celular durante a aula ou uma conversa.", "figure": "👀 📚 📵", "tip": "Guardar o celular em momentos de estudo ajuda a acompanhar melhor a atividade."}, {"word": "FAMILIA", "clue": "Pessoas com quem podemos criar momentos sem telas, como refeições e conversas.", "figure": "👨‍👩‍👧‍👦 🍽️ 📵", "tip": "Alguns momentos sem celular ajudam a fortalecer a convivência."}, {"word": "SEGURANCA", "clue": "Cuidado necessário ao conversar com desconhecidos e acessar links.", "figure": "🛡️ 🌐 📱", "tip": "Evite links suspeitos e procure um adulto de confiança quando algo parecer estranho."}, {"word": "ESCOLHAS", "clue": "Decisões conscientes sobre quando, onde e por quanto tempo usar o celular.", "figure": "🤔 ⏳ 📱", "tip": "Antes de pegar o celular, pergunte: preciso usar agora ou posso fazer outra atividade?"}, {"word": "CONVIVENCIA", "clue": "Acontece quando compartilhamos tempo, atenção e experiências com outras pessoas.", "figure": "🏫 👧🏿 👦🏻 👧🏼 👦🏽", "tip": "O celular deve aproximar pessoas, não substituir todos os momentos presenciais."}];
 const alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-let index=0,points=0,hits=0,errors=0,guessed=[],roundOver=false;
+let index=0,points=0,hits=0,errors=0,totalErrors=0,failedWords=0,guessed=[],roundOver=false;
 
 function normalize(s){
  return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -285,7 +285,7 @@ function guess(letter,btn){
   document.getElementById("feedback").textContent="✅ Boa escolha! Essa letra aparece na palavra.";
  }else{
   btn.classList.add("bad"); badFx();
-  errors++;
+  errors++;totalErrors++;
   document.getElementById("feedback").textContent="⚠️ Essa letra não aparece. Pense na pista e tente outra.";
  }
  drawWord();updateHud();
@@ -295,7 +295,7 @@ function guess(letter,btn){
   document.getElementById("next").style.display="block";
   disableKeys();
  }else if(errors>=6){
-  roundOver=true;
+  roundOver=true;failedWords++;
   document.getElementById("feedback").innerHTML="🔎 A palavra era <b>"+items[index].word+"</b>.<br>"+items[index].tip;
   document.getElementById("next").style.display="block";
   revealWord();disableKeys();
@@ -322,14 +322,29 @@ function updateHud(){
 
 function finish(){
  document.getElementById("play").style.display="none";
- document.getElementById("finish").style.display="block";
+ const finishBox=document.getElementById("finish");
+ finishBox.style.display="block";
  document.getElementById("bar").style.width="100%";
+ const total=items.length;
+ const percentual=Math.round((hits/total)*100);
+ const aprovado=hits>=9;
  const medal=hits>=11?"🥇 Guardião do Equilíbrio Digital":hits>=9?"🥈 Usuário Consciente":hits>=7?"🥉 Navegador Responsável":"⭐ Aprendiz Digital";
- document.getElementById("finalText").innerHTML="Você fez <b>"+points+" pontos</b>, descobriu <b>"+hits+" de 12 palavras</b> e conquistou o título <b>"+medal+"</b>.<br><br>O celular é uma ferramenta útil quando usado com equilíbrio, respeito e segurança."; victoryFx(); digitalRain();
+ const titulo=finishBox.querySelector("h2");
+ const icon=finishBox.querySelector(".icon");
+ if(aprovado){
+  titulo.textContent="Missão concluída!";
+  icon.textContent="🏆📵✨";
+  document.getElementById("finalText").innerHTML="Você descobriu <b>"+hits+" de "+total+" palavras</b> ("+percentual+"%), somou <b>"+points+" pontos</b> e conquistou o título <b>"+medal+"</b>.<br>Foram <b>"+failedWords+" palavras não descobertas</b> e <b>"+totalErrors+" letras incorretas</b> ao longo da missão.<br><br>O celular é uma ferramenta útil quando usado com equilíbrio, respeito e segurança.";
+  victoryFx();digitalRain();
+ }else{
+  titulo.textContent="Missão ainda não concluída";
+  icon.textContent="🔒📵🐶";
+  document.getElementById("finalText").innerHTML="Você descobriu <b>"+hits+" de "+total+" palavras</b> ("+percentual+"%) e fez <b>"+points+" pontos</b>.<br>Para concluir a missão, descubra pelo menos <b>9 palavras</b>. Revise as pistas e tente novamente!";
+ }
 }
 
 function restart(){
- index=0;points=0;hits=0;errors=0;guessed=[];roundOver=false;
+ index=0;points=0;hits=0;errors=0;totalErrors=0;failedWords=0;guessed=[];roundOver=false;
  document.getElementById("play").style.display="block";
  document.getElementById("finish").style.display="none";
  load();

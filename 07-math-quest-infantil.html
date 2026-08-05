@@ -706,19 +706,24 @@ function mathRain(){
       el('recordeFinal').textContent = novoRecorde;
 
       const percentual = estado.acertos / TOTAL_QUESTOES;
-      victoryFx(); mathRain();
-      if (percentual >= .9) {
-        el('medalha').textContent = '💎';
-        el('mensagemFinal').textContent = 'Você conquistou o título Infinity Master!';
-      } else if (percentual >= .7) {
-        el('medalha').textContent = '🥇';
-        el('mensagemFinal').textContent = 'Excelente! Você restaurou a energia da Cidade da Matemática.';
-      } else if (percentual >= .5) {
-        el('medalha').textContent = '🥈';
-        el('mensagemFinal').textContent = 'Muito bem! Continue treinando para alcançar o nível máximo.';
+      const percentualInteiro = Math.round(percentual * 100);
+      const aprovado = estado.acertos >= 9;
+      const tituloFim = el('telaFim').querySelector('h2');
+
+      if (aprovado) {
+        tituloFim.textContent = 'Missão concluída!';
+        victoryFx(); mathRain();
+        if (percentual >= .9) {
+          el('medalha').textContent = '💎';
+          el('mensagemFinal').textContent = `Você acertou ${estado.acertos} de ${TOTAL_QUESTOES} desafios (${percentualInteiro}%) e conquistou o título Infinity Master!`;
+        } else {
+          el('medalha').textContent = '🥇';
+          el('mensagemFinal').textContent = `Excelente! Com ${estado.acertos} de ${TOTAL_QUESTOES} acertos (${percentualInteiro}%), você restaurou a energia da Cidade da Matemática.`;
+        }
       } else {
-        el('medalha').textContent = '🥉';
-        el('mensagemFinal').textContent = 'Boa tentativa! Jogue novamente e supere sua pontuação.';
+        tituloFim.textContent = 'Missão ainda não concluída';
+        el('medalha').textContent = percentual >= .5 ? '🥈' : '🔒';
+        el('mensagemFinal').textContent = `Você acertou ${estado.acertos} de ${TOTAL_QUESTOES} desafios (${percentualInteiro}%). Para concluir a missão, é necessário acertar pelo menos 9. Tente novamente!`;
       }
     }
 

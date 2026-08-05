@@ -206,7 +206,7 @@ header p{font-size:clamp(15px,2vw,20px)}
 <div class="finish" id="finish">
   <div class="finishBox">
     <div style="font-size:95px">🚀✨🐶🏆</div>
-    <h2>Estação do Conhecimento alcançada!</h2>
+    <h2 id="finishTitle">Estação do Conhecimento alcançada!</h2>
     <p id="finishText"></p>
     <button class="startBtn" onclick="location.reload()">Jogar novamente</button>
   </div>
@@ -216,7 +216,7 @@ header p{font-size:clamp(15px,2vw,20px)}
 
 <script>
 const questions=[{"planet": "Planeta das Operações", "icon": "🪐", "q": "A nave possui 960 unidades de combustível, distribuídas igualmente em 12 tanques. Quantas unidades ficam em cada tanque?", "opts": ["70", "80", "90", "100"], "ans": "80", "hint": "Calcule 960 ÷ 12.", "explain": "960 ÷ 12 = 80."}, {"planet": "Lua dos Decimais", "icon": "🌙", "q": "O Infinity Dog comprou 3 baterias de R$ 24,50 e 2 sensores de R$ 18,25. Qual foi o total?", "opts": ["R$ 104,00", "R$ 108,50", "R$ 110,00", "R$ 112,50"], "ans": "R$ 110,00", "hint": "Calcule 3 × 24,50 e 2 × 18,25.", "explain": "73,50 + 36,50 = R$ 110,00."}, {"planet": "Asteroide dos Padrões", "icon": "☄️", "q": "Complete a sequência espacial: 4, 12, 36, 108, ...", "opts": ["216", "288", "324", "432"], "ans": "324", "hint": "Cada termo é multiplicado por 3.", "explain": "108 × 3 = 324."}, {"planet": "Estação Geométrica", "icon": "🛰️", "q": "Um painel solar retangular mede 15 m por 8 m. Qual é sua área?", "opts": ["90 m²", "100 m²", "120 m²", "140 m²"], "ans": "120 m²", "hint": "Área = comprimento × largura.", "explain": "15 × 8 = 120 m²."}, {"planet": "Planeta dos Sólidos", "icon": "🛸", "q": "Um compartimento mede 5 m × 4 m × 3 m. Qual é seu volume?", "opts": ["40 m³", "50 m³", "60 m³", "70 m³"], "ans": "60 m³", "hint": "Multiplique as três dimensões.", "explain": "5 × 4 × 3 = 60 m³."}, {"planet": "Nebulosa das Frações", "icon": "🌌", "q": "De 360 cristais, 5/8 foram usados para alimentar a nave. Quantos cristais foram usados?", "opts": ["180", "200", "225", "240"], "ans": "225", "hint": "Divida 360 por 8 e multiplique por 5.", "explain": "360 ÷ 8 = 45; 45 × 5 = 225."}, {"planet": "Galáxia da Média", "icon": "🌠", "q": "As distâncias percorridas em quatro viagens foram 120, 180, 150 e 210 km. Qual foi a média?", "opts": ["150 km", "160 km", "165 km", "170 km"], "ans": "165 km", "hint": "Some os valores e divida por 4.", "explain": "(120 + 180 + 150 + 210) ÷ 4 = 165 km."}, {"planet": "Portal das Equações", "icon": "🌀", "q": "Para abrir o portal, resolva: 5x + 20 = 95. Qual é o valor de x?", "opts": ["13", "14", "15", "16"], "ans": "15", "hint": "Subtraia 20 e divida por 5.", "explain": "5x = 75; x = 15."}, {"planet": "Usina Exponencial", "icon": "⚡", "q": "Uma colônia começa com 200 microrrobôs e dobra a cada ciclo. Quantos haverá após 4 ciclos?", "opts": ["1.600", "2.400", "3.200", "4.000"], "ans": "3.200", "hint": "Use 200 × 2⁴.", "explain": "200 × 16 = 3.200."}, {"planet": "Estação do Conhecimento", "icon": "🏆", "q": "A missão tinha 18.000 créditos. Foram gastos 35% em tecnologia e 25% em manutenção. Quanto restou?", "opts": ["6.200", "7.200", "8.200", "9.000"], "ans": "7.200", "hint": "Restaram 40% do total.", "explain": "40% de 18.000 = 7.200."}];
-let current=0,points=0,crystals=0,lives=5,answered=false,hintUsed=false,soundOn=true;
+let current=0,points=0,crystals=0,lives=5,errors=0,answered=false,hintUsed=false,soundOn=true;
 let ctx=null;
 
 function build(){
@@ -313,11 +313,13 @@ function check(v,b){
     nextBtn.style.display="block";
   }else{
     lives=Math.max(0,lives-1);
+    errors++;
     b.disabled=true;
     b.style.background="#ffd3d3";
     feedback.textContent="❌ Ainda não. Tente outra alternativa ou use a pista.";
     wrongSound();
     update();
+    if(lives===0){setTimeout(()=>failGame(),500);}
   }
 }
 
@@ -368,9 +370,19 @@ function finishGame(){
   victorySound();
   makeConfetti();
   setTimeout(()=>{
+    finishTitle.textContent="Estação do Conhecimento alcançada!";
     finish.classList.add("show");
-    finishText.innerHTML="Você conquistou <b>10 cristais</b>, completou todos os planetas e fez <b>"+points+" pontos</b>.<br><br>O Infinity Dog chegou à Estação do Conhecimento!";
+    const percent=Math.round(questions.length/(questions.length+errors)*100);
+    finishText.innerHTML="Você conquistou <b>10 cristais</b>, cometeu <b>"+errors+" erro(s)</b>, alcançou <b>"+percent+"% de precisão</b> e fez <b>"+points+" pontos</b>.<br><br>O Infinity Dog chegou à Estação do Conhecimento!";
   },1200);
+}
+
+function failGame(){
+  modal.classList.remove("show");
+  galaxy.classList.remove("paused");
+  finishTitle.textContent="Combustível esgotado — missão interrompida";
+  finish.classList.add("show");
+  finishText.innerHTML="Você conquistou <b>"+crystals+" de 10 cristais</b> e cometeu <b>"+errors+" erros</b>.<br><br>Revise as pistas, recarregue a nave e tente novamente.";
 }
 
 function makeConfetti(){

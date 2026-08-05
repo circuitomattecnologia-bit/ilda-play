@@ -134,7 +134,7 @@ header p{margin:8px 0;font-size:clamp(15px,2vw,20px)}
 <div class="finish" id="finish">
   <div class="finishBox">
     <div style="font-size:96px">🤖⚡✨🏆</div>
-    <h2>Infinity Dog reativado!</h2>
+    <h2 id="finishTitle">Infinity Dog reativado!</h2>
     <p id="finishText"></p>
     <button class="startBtn" onclick="location.reload()">Jogar novamente</button>
   </div>
@@ -143,7 +143,7 @@ header p{margin:8px 0;font-size:clamp(15px,2vw,20px)}
 
 <script>
 const questions=[{"area": "Matemática", "icon": "🔢", "piece": "Cabeça", "q": "Quanto é 48 ÷ 6?", "opts": ["6", "8", "10", "12"], "ans": "8", "hint": "Pense na tabuada do 6: 6 × 8 = 48.", "explain": "48 ÷ 6 = 8."}, {"area": "Português", "icon": "📖", "piece": "Olhos", "q": "Qual palavra está escrita corretamente?", "opts": ["Excessão", "Exceção", "Esceção", "Exsessão"], "ans": "Exceção", "hint": "A palavra correta começa com 'ex' e tem 'ç'.", "explain": "A forma correta é 'exceção'."}, {"area": "Geografia", "icon": "🌍", "piece": "Orelha esquerda", "q": "Qual é a capital do Brasil?", "opts": ["Rio de Janeiro", "São Paulo", "Brasília", "Salvador"], "ans": "Brasília", "hint": "É uma cidade planejada e inaugurada em 1960.", "explain": "Brasília é a capital do Brasil."}, {"area": "História", "icon": "📜", "piece": "Orelha direita", "q": "Quem proclamou a Independência do Brasil?", "opts": ["Dom Pedro I", "Tiradentes", "Getúlio Vargas", "Pedro Álvares Cabral"], "ans": "Dom Pedro I", "hint": "Foi o primeiro imperador do Brasil.", "explain": "Dom Pedro I proclamou a Independência do Brasil em 1822."}, {"area": "Ciências", "icon": "🔬", "piece": "Pescoço", "q": "Qual estado físico da água encontramos no gelo?", "opts": ["Líquido", "Gasoso", "Sólido", "Vapor"], "ans": "Sólido", "hint": "O gelo mantém forma própria.", "explain": "O gelo é água no estado sólido."}, {"area": "Biologia", "icon": "🧬", "piece": "Corpo", "q": "Qual parte da planta absorve água e sais minerais do solo?", "opts": ["Folha", "Raiz", "Flor", "Fruto"], "ans": "Raiz", "hint": "Essa parte normalmente fica dentro do solo.", "explain": "A raiz absorve água e sais minerais."}, {"area": "Química", "icon": "⚗️", "piece": "Braço esquerdo", "q": "Qual destes materiais é um metal?", "opts": ["Vidro", "Ferro", "Plástico", "Papel"], "ans": "Ferro", "hint": "É usado em ferramentas e estruturas.", "explain": "O ferro é um metal."}, {"area": "Física", "icon": "⚡", "piece": "Braço direito", "q": "Qual aparelho mede a temperatura?", "opts": ["Régua", "Balança", "Termômetro", "Cronômetro"], "ans": "Termômetro", "hint": "Ele é usado para saber se algo está quente ou frio.", "explain": "O termômetro mede a temperatura."}, {"area": "Arte", "icon": "🎨", "piece": "Pata dianteira", "q": "Qual destas é uma cor primária?", "opts": ["Verde", "Roxo", "Azul", "Marrom"], "ans": "Azul", "hint": "As cores primárias tradicionais são vermelho, amarelo e azul.", "explain": "Azul é uma cor primária."}, {"area": "Filosofia", "icon": "💭", "piece": "Pata traseira", "q": "A Filosofia busca principalmente:", "opts": ["Decorar respostas", "Refletir e questionar", "Evitar dúvidas", "Repetir opiniões"], "ans": "Refletir e questionar", "hint": "Filosofar envolve pensar, investigar e fazer perguntas.", "explain": "A Filosofia incentiva reflexão, análise e questionamento."}, {"area": "Sociologia", "icon": "👥", "piece": "Cauda", "q": "Qual atitude ajuda na boa convivência em sociedade?", "opts": ["Respeitar as diferenças", "Excluir quem pensa diferente", "Espalhar boatos", "Desobedecer todas as regras"], "ans": "Respeitar as diferenças", "hint": "Pense em empatia, diálogo e respeito.", "explain": "Respeitar as diferenças fortalece a convivência social."}, {"area": "Educação Física", "icon": "🏃", "piece": "Motor das patas", "q": "Qual hábito contribui para uma vida mais saudável?", "opts": ["Ficar sentado o dia todo", "Praticar atividades físicas regularmente", "Dormir poucas horas", "Comer apenas doces"], "ans": "Praticar atividades físicas regularmente", "hint": "Nosso corpo precisa de movimento para fortalecer músculos, ossos e coração.", "explain": "A atividade física regular melhora a saúde e a qualidade de vida."}, {"area": "Tecnologia", "icon": "💻", "piece": "Sistema Infinity", "q": "Qual atitude é mais segura ao usar a internet?", "opts": ["Compartilhar senhas", "Clicar em qualquer link", "Usar senhas fortes e não compartilhá-las", "Aceitar desconhecidos"], "ans": "Usar senhas fortes e não compartilhá-las", "hint": "Uma boa senha protege seus dados pessoais.", "explain": "Senhas fortes e privadas aumentam a segurança digital."}];
-let index=0,points=0,pieces=0,lives=6,answered=false,hintUsed=false,soundOn=true;
+let index=0,points=0,pieces=0,lives=6,errors=0,answered=false,hintUsed=false,soundOn=true;
 let ctx=null;
 const parts=[...document.querySelectorAll(".part")];
 
@@ -186,11 +186,13 @@ function check(value,btn){
     nextBtn.style.display="block";
   }else{
     lives=Math.max(0,lives-1);
+    errors++;
     btn.disabled=true;
     btn.style.background="#ffd3d3";
     feedback.textContent="❌ Ainda não. Tente outra alternativa ou use a dica.";
     wrongSound();
     update();
+    if(lives===0){setTimeout(()=>failGame(),500);}
   }
 }
 
@@ -232,9 +234,17 @@ function finishGame(){
   victorySound();
   makeConfetti();
   setTimeout(()=>{
+    finishTitle.textContent="Infinity Dog reativado!";
     finish.classList.add("show");
-    finishText.innerHTML="Você instalou <b>13 peças</b>, concluiu todas as áreas do conhecimento e fez <b>"+points+" pontos</b>.<br><br><b>Sistema iniciado! Missão concluída. Obrigado por me reconstruir!</b>";
+    const percent=Math.round(questions.length/(questions.length+errors)*100);
+    finishText.innerHTML="Você instalou <b>13 peças</b>, cometeu <b>"+errors+" erro(s)</b>, alcançou <b>"+percent+"% de precisão</b> e fez <b>"+points+" pontos</b>.<br><br><b>Sistema iniciado! Missão concluída. Obrigado por me reconstruir!</b>";
   },1500);
+}
+
+function failGame(){
+  finishTitle.textContent="Energia esgotada — reconstrução incompleta";
+  finish.classList.add("show");
+  finishText.innerHTML="Você instalou <b>"+pieces+" de 13 peças</b> e cometeu <b>"+errors+" erros</b>.<br><br>Revise as dicas e tente novamente para reativar o Infinity Dog.";
 }
 
 function makeConfetti(){
