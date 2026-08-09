@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MATH RACE — Corrida Matemática</title>
+<style>
+:root{--bg:#06090f;--panel:#0c121d;--txt:#f7fbff;--cyan:#2bd7ff;--lime:#a6ff3f;--gold:#ffd84a;--red:#ff4d61;--muted:#8fa4b8}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 50% 0,#15253b,#06090f 58%);color:var(--txt);min-height:100vh}
+button{font:inherit;touch-action:manipulation}.app{max-width:1180px;margin:auto;padding:14px}.hidden{display:none!important}
+.header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.logo{font-weight:1000;font-size:clamp(34px,6vw,62px);letter-spacing:-2px}.logo span{color:var(--cyan)}.chip{background:#0c1520;border:1px solid #29425e;border-radius:999px;padding:9px 13px;font-weight:900}
+.panel{margin-top:12px;background:#090f18e8;border:1px solid #29425e;border-radius:28px;padding:18px;box-shadow:0 18px 55px #0008}
+.hero{min-height:590px;border-radius:26px;overflow:hidden;position:relative;background:linear-gradient(#1e2c40 0 42%,#313844 43% 49%,#1a1f27 50%);display:grid;grid-template-columns:1.1fr .8fr;align-items:end;padding:30px}
+.hero:before{content:"";position:absolute;left:50%;bottom:-5%;transform:translateX(-50%);width:72%;height:64%;background:linear-gradient(90deg,transparent 0 8%,#fff 8% 9%,transparent 9% 49%,#ffd84a 49% 51%,transparent 51% 91%,#fff 91% 92%,transparent 92%),linear-gradient(#242b34,#11161d);clip-path:polygon(36% 0,64% 0,100% 100%,0 100%);opacity:.95}
+.hero:after{content:"🏁";position:absolute;right:8%;top:8%;font-size:90px;filter:drop-shadow(0 8px 6px #000)}
+.heroText{position:relative;z-index:2;max-width:680px}.hero h1{font-size:clamp(54px,10vw,110px);line-height:.82;margin:0}.hero h1 b{color:var(--cyan)}.hero p{font-size:21px;line-height:1.35;max-width:650px}
+.heroCar{position:relative;z-index:2;text-align:center;font-size:clamp(110px,19vw,200px);filter:drop-shadow(0 15px 12px #000);animation:idleCar 1.4s infinite alternate}@keyframes idleCar{to{transform:translateY(-6px)}}
+.btn{border:0;border-radius:16px;padding:16px 21px;font-weight:1000;font-size:18px;cursor:pointer;background:linear-gradient(90deg,var(--cyan),var(--lime));color:#041018;box-shadow:0 5px 0 #1c6578;margin:6px}.btn.alt{background:#111a25;color:white;border:1px solid #35506c;box-shadow:none}
+.hud{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:10px}.hudItem{background:#0b141f;border:1px solid #29425e;border-radius:16px;padding:10px;text-align:center}.hudItem span{display:block;font-size:11px;color:var(--muted);font-weight:900}.hudItem b{font-size:24px}
+.track{position:relative;min-height:620px;border-radius:26px;overflow:hidden;background:linear-gradient(#233449 0 27%,#52606d 27% 32%,#171d24 32% 100%);border:2px solid #29425e}
+.track:before{content:"";position:absolute;left:50%;bottom:-5%;transform:translateX(-50%);width:88%;height:75%;background:linear-gradient(90deg,#fff 0 1%,transparent 1% 24%,#fff 24% 25%,transparent 25% 49%,#ffd84a 49% 51%,transparent 51% 75%,#fff 75% 76%,transparent 76% 99%,#fff 99% 100%),linear-gradient(#242a31,#0f1318);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%)}
+.cars{position:absolute;inset:0;z-index:2}.car{position:absolute;font-size:64px;transition:transform .65s cubic-bezier(.2,.8,.2,1),bottom .65s;filter:drop-shadow(0 8px 7px #000)}.car.me{left:46%;bottom:8%;font-size:80px}.car.c2{left:24%;bottom:14%}.car.c3{left:67%;bottom:19%}.car.c4{left:38%;bottom:27%}.nitro{position:absolute;left:50%;bottom:28%;transform:translateX(-50%);font-size:0;opacity:0;z-index:1}.nitro.on{font-size:80px;opacity:1;animation:nitro .7s}@keyframes nitro{to{transform:translate(-50%,-100px);opacity:0}}
+.questionBox{position:relative;z-index:4;background:#080d14ed;border:1px solid #35506c;border-radius:22px;padding:16px;max-width:900px;margin:335px auto 0}.skill{font-size:13px;color:var(--lime);font-weight:900;text-transform:uppercase}.question{font-size:clamp(21px,3vw,30px);font-weight:900;margin:8px 0 14px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{min-height:62px;text-align:left;border:0;border-radius:14px;padding:13px;font-size:18px;font-weight:900;background:#fff;color:#091019;cursor:pointer;box-shadow:0 4px 0 #8fa4b8}.answer:hover{outline:4px solid var(--gold);transform:translateY(-2px)}.feedback{min-height:48px;text-align:center;font-size:21px;font-weight:900;padding-top:10px}
+.positionBanner{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:8;background:#050910df;border:2px solid var(--cyan);border-radius:18px;padding:10px 18px;font-weight:1000;font-size:24px}.boostText{position:absolute;left:50%;top:230px;transform:translateX(-50%) scale(.4);z-index:8;font-size:clamp(42px,8vw,86px);font-weight:1000;color:var(--gold);opacity:0;text-shadow:0 4px 0 #7a5c00}.boostText.show{animation:boost 1s}@keyframes boost{25%,70%{opacity:1;transform:translateX(-50%) scale(1)}100%{opacity:0}}
+.finish{text-align:center}.finish h2{font-size:clamp(50px,9vw,96px);margin:10px;color:var(--gold)}.podium{font-size:120px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:900px;margin:18px auto}.stat{background:#101823;border-radius:18px;padding:16px}.stat b{display:block;font-size:28px;color:var(--cyan)}
+@media(max-width:760px){.hero{grid-template-columns:1fr;min-height:700px}.answers{grid-template-columns:1fr}.hud{grid-template-columns:1fr 1fr}.track{min-height:690px}.questionBox{margin-top:370px}.stats{grid-template-columns:1fr 1fr}.car{font-size:48px}.car.me{font-size:62px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo">MATH <span>RACE</span></div>
+    <div class="chip">🏎️ CORRIDA MATEMÁTICA</div>
+  </div>
+
+  <section class="panel" id="start">
+    <div class="hero">
+      <div class="heroText">
+        <div class="chip" style="display:inline-block">🎮 MODO CAMPEONATO</div>
+        <h1>ACERTE.<br><b>ACELERE.</b><br>VENÇA!</h1>
+        <p>Um jogo único para estudantes do 5º ano ao Ensino Médio. As questões começam mais simples e ficam mais desafiadoras. Cada acerto faz seu carro acelerar; sequências de acertos liberam NITRO.</p>
+        <button class="btn" onclick="begin()">🏁 LARGAR AGORA</button>
+        <button class="btn alt" onclick="toggleMusic()" id="musicBtn">🎵 MÚSICA ON</button>
+      </div>
+      <div class="heroCar">🏎️</div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="game">
+    <div class="hud">
+      <div class="hudItem"><span>QUESTÃO</span><b id="counter">1/20</b></div>
+      <div class="hudItem"><span>POSIÇÃO</span><b id="position">4º</b></div>
+      <div class="hudItem"><span>VELOCIDADE</span><b id="speed">80</b></div>
+      <div class="hudItem"><span>NITRO</span><b id="nitroCount">0</b></div>
+      <div class="hudItem"><span>TEMPO</span><b id="clock">00:00</b></div>
+    </div>
+    <div class="track">
+      <div class="positionBanner" id="posBanner">🏁 4º LUGAR</div>
+      <div class="boostText" id="boostText">NITRO!</div>
+      <div class="cars">
+        <div class="car c2" id="c2">🏎️</div>
+        <div class="car c3" id="c3">🏎️</div>
+        <div class="car c4" id="c4">🏎️</div>
+        <div class="car me" id="me">🏎️</div>
+      </div>
+      <div class="nitro" id="nitroFx">🔥</div>
+      <div class="questionBox">
+        <div class="skill" id="skill"></div>
+        <div class="question" id="question"></div>
+        <div class="answers" id="answers"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel finish hidden" id="finish">
+    <div class="podium" id="podium">🏆</div>
+    <h2 id="finishTitle">CORRIDA CONCLUÍDA!</h2>
+    <p style="font-size:22px">Seu desempenho na pista matemática:</p>
+    <div class="stats">
+      <div class="stat">POSIÇÃO FINAL<b id="fPos"></b></div>
+      <div class="stat">ACERTOS<b id="fHits"></b></div>
+      <div class="stat">PONTOS<b id="fScore"></b></div>
+      <div class="stat">TEMPO<b id="fTime"></b></div>
+    </div>
+    <button class="btn" onclick="location.reload()">🔁 NOVA CORRIDA</button>
+  </section>
+</div>
+
+<script>
+const Q=[{"q": "36 ÷ 6 = ?", "o": ["5", "6", "7", "8"], "a": 1, "skill": "Operações"}, {"q": "Um carro percorre 20 km em 1 hora. Em 3 horas, na mesma velocidade, percorre:", "o": ["40 km", "50 km", "60 km", "80 km"], "a": 2, "skill": "Proporcionalidade"}, {"q": "25% de 200 é:", "o": ["25", "40", "50", "75"], "a": 2, "skill": "Porcentagem"}, {"q": "Qual é o perímetro de um quadrado de lado 8 m?", "o": ["16 m", "24 m", "32 m", "64 m"], "a": 2, "skill": "Perímetro"}, {"q": "Complete: 4, 8, 12, 16, ...", "o": ["18", "20", "22", "24"], "a": 1, "skill": "Sequência"}, {"q": "Resolva: 2x + 4 = 14.", "o": ["4", "5", "6", "7"], "a": 1, "skill": "Equação"}, {"q": "A média de 7, 8 e 9 é:", "o": ["7", "8", "9", "10"], "a": 1, "skill": "Média"}, {"q": "Qual é √144?", "o": ["10", "11", "12", "14"], "a": 2, "skill": "Radiciação"}, {"q": "Se 4 ingressos custam R$ 60, 6 ingressos custam:", "o": ["R$ 75", "R$ 80", "R$ 90", "R$ 100"], "a": 2, "skill": "Proporcionalidade"}, {"q": "Um triângulo de base 10 cm e altura 8 cm possui área igual a:", "o": ["18 cm²", "40 cm²", "80 cm²", "160 cm²"], "a": 1, "skill": "Geometria"}, {"q": "Se f(x)=3x+2, então f(4) =", "o": ["10", "12", "14", "16"], "a": 2, "skill": "Função afim"}, {"q": "Em um dado comum, a probabilidade de sair número maior que 4 é:", "o": ["1/6", "1/3", "1/2", "2/3"], "a": 1, "skill": "Probabilidade"}, {"q": "As raízes de x² − 7x + 12 = 0 são:", "o": ["2 e 6", "3 e 4", "−3 e −4", "4 e 5"], "a": 1, "skill": "Equação do 2º grau"}, {"q": "Na PA (2, 5, 8, 11, ...), o 8º termo é:", "o": ["20", "21", "23", "24"], "a": 2, "skill": "Progressão aritmética"}, {"q": "Em uma PG (2, 4, 8, 16, ...), o 6º termo é:", "o": ["32", "48", "64", "96"], "a": 2, "skill": "Progressão geométrica"}, {"q": "A reta que passa por (0,1) e (2,5) tem coeficiente angular igual a:", "o": ["1", "2", "3", "4"], "a": 1, "skill": "Geometria analítica"}, {"q": "Um cilindro de raio 2 cm e altura 6 cm tem volume, usando π=3, igual a:", "o": ["24 cm³", "48 cm³", "72 cm³", "96 cm³"], "a": 2, "skill": "Volume"}, {"q": "A função y = −x² + 8x + 1 atinge seu máximo em x =", "o": ["2", "3", "4", "8"], "a": 2, "skill": "Função quadrática"}, {"q": "Se sen θ = 3/5 em um triângulo retângulo, o cateto oposto pode medir 3 quando a hipotenusa mede:", "o": ["4", "5", "6", "8"], "a": 1, "skill": "Trigonometria"}, {"q": "Usando V + F − A = 2, um poliedro com 12 vértices e 8 faces possui quantas arestas?", "o": ["16", "18", "20", "22"], "a": 1, "skill": "Relação de Euler"}];
+let idx=0,hits=0,score=0,streak=0,nitro=0,position=4,speed=80,started=null,timer=null,locked=false,musicOn=true,audioCtx=null,musicTimer=null;
+const $=id=>document.getElementById(id);
+
+function audio(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==="suspended")audioCtx.resume();return audioCtx}
+function tone(f,d=.12,type="sine",v=.05,delay=0){try{const a=audio(),o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;o.connect(g);g.connect(a.destination);let t=a.currentTime+delay;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.start(t);o.stop(t+d)}catch(e){}}
+function noise(d=.18,v=.04){try{const a=audio(),b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),data=b.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*(1-i/data.length);const s=a.createBufferSource(),g=a.createGain();s.buffer=b;s.connect(g);g.connect(a.destination);g.gain.value=v;s.start()}catch(e){}}
+function engineFx(){tone(95,.18,"sawtooth",.035);tone(120,.18,"sawtooth",.025,.05)}
+function skidFx(){noise(.25,.07);tone(160,.20,"square",.025)}
+function nitroFx(){noise(.35,.06);[300,520,760].forEach((f,i)=>tone(f,.20,"sawtooth",.035,i*.06))}
+function finishFx(){[520,660,820,1040].forEach((f,i)=>tone(f,.35,"triangle",.055,i*.16))}
+
+function startMusic(){
+ if(!musicOn)return;
+ clearInterval(musicTimer);
+ let step=0;
+ musicTimer=setInterval(()=>{
+   if(!musicOn)return;
+   const bass=[110,110,130,98][step%4];
+   tone(bass,.18,"square",.015);
+   tone(bass*2,.10,"triangle",.012,.08);
+   if(step%2===0)noise(.05,.012);
+   step++;
+ },260);
+}
+function toggleMusic(){musicOn=!musicOn;$("musicBtn").textContent=musicOn?"🎵 MÚSICA ON":"🎵 MÚSICA OFF";if(musicOn){audio();startMusic()}else clearInterval(musicTimer)}
+function begin(){audio();$("start").classList.add("hidden");$("game").classList.remove("hidden");started=Date.now();timer=setInterval(updateClock,250);tone(1200,.12);tone(1500,.12,"sine",.05,.18);startMusic();render()}
+function updateClock(){let t=Math.floor((Date.now()-started)/1000);$("clock").textContent=String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}
+function render(){locked=false;const x=Q[idx];$("counter").textContent=`${idx+1}/${Q.length}`;$("skill").textContent=x.skill;$("question").textContent=x.q;$("feedback").textContent="";$("answers").innerHTML=x.o.map((o,i)=>`<button class="answer" onclick="answer(${i},this)"><b>${String.fromCharCode(65+i)})</b> ${o}</button>`).join("")}
+function answer(n,b){if(locked)return;locked=true;document.querySelectorAll(".answer").forEach(x=>x.disabled=true);const x=Q[idx];
+ if(n===x.a){hits++;score+=100;streak++;speed=Math.min(320,speed+20);engineFx();b.style.background="#c7ffd0";$("feedback").textContent="✅ CERTO! ACELERANDO!";if(streak%3===0){nitro++;score+=150;speed=Math.min(360,speed+35);$("nitroCount").textContent=nitro;activateNitro()} advance(true)}
+ else{streak=0;speed=Math.max(70,speed-15);skidFx();b.style.background="#ffd4d8";document.querySelectorAll(".answer")[x.a].style.background="#c7ffd0";$("feedback").textContent="❌ ERROU! PERDEU VELOCIDADE.";advance(false)}
+ $("speed").textContent=speed;
+}
+function activateNitro(){$("nitroFx").classList.add("on");$("boostText").classList.add("show");nitroFx();setTimeout(()=>{$("nitroFx").classList.remove("on");$("boostText").classList.remove("show")},900)}
+function advance(correct){let progress=(idx+1)/Q.length;let target=4;
+ if(hits>=15)target=1; else if(hits>=10)target=2; else if(hits>=5)target=3;
+ if(correct && target<position)position=target;
+ $("position").textContent=position+"º";$("posBanner").textContent=`🏁 ${position}º LUGAR`;
+ const base=8+progress*48; $("me").style.bottom=(base+(4-position)*8)+"%";
+ $("c2").style.bottom=(18+progress*36+Math.sin(idx)*4)+"%";
+ $("c3").style.bottom=(24+progress*30+Math.cos(idx)*5)+"%";
+ $("c4").style.bottom=(30+progress*24+Math.sin(idx*.7)*3)+"%";
+ setTimeout(()=>{idx++;if(idx>=Q.length)finish();else render()},1050)
+}
+function finish(){clearInterval(timer);clearInterval(musicTimer);$("game").classList.add("hidden");$("finish").classList.remove("hidden");finishFx();let elapsed=$("clock").textContent;$("fPos").textContent=position+"º";$("fHits").textContent=`${hits}/${Q.length}`;$("fScore").textContent=score;$("fTime").textContent=elapsed;if(position===1){$("finishTitle").textContent="CAMPEÃO DA MATH RACE!";$("podium").textContent="🏆🥇🏁"}else if(position===2){$("podium").textContent="🥈🏁"}else if(position===3){$("podium").textContent="🥉🏁"}}
+</script>
+</body></html>
